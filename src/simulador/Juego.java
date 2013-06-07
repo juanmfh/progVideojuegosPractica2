@@ -29,7 +29,7 @@ public class Juego extends JFrame implements Runnable {
     Thread hebra = new Thread(this);
     ArrayList<simulador.Figura> listaObjetosFisicos = new ArrayList<Figura>();
     ArrayList<simulador.Figura> listaObjetosNoFisicos = new ArrayList<Figura>();
-    DiscreteDynamicsWorld mundoFisico;
+    public static DiscreteDynamicsWorld mundoFisico;
     BranchGroup conjunto = new BranchGroup();
     public boolean actualizandoFisicas, mostrandoFisicas;
     public float tiempoJuego;
@@ -91,10 +91,13 @@ public class Juego extends JFrame implements Runnable {
         TransformGroup TGcubo = new TransformGroup(desplazamiento);
         TGcubo.addChild(cubo);
         objRoot.addChild(TGcubo);*/
+        
+        // crear mundo
+        objRoot.addChild(Mundo.crearMundo());
 
         //Hola Mundo con una esfera visual-fisica en 0, -4, 0.
         //Es sencillo crearlos est‡ticos como se muestra a continuacion. Sii desea que caigan, y se sometan a fuerzas, mejor crear una figura.
-        float radio = 2f;
+        /*float radio = 2f;
         float posY = -4f;
         Appearance apariencia = new Appearance();
         apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//texturas//ladrillo.jpg", this).getTexture());
@@ -120,7 +123,7 @@ public class Juego extends JFrame implements Runnable {
         RigidBody cuerpoRigido = new RigidBody(InformacionCuerpoR);
         cuerpoRigido.setActivationState(RigidBody.DISABLE_DEACTIVATION);
         mundoFisico.addRigidBody(cuerpoRigido); // add the body to the dynamics world
-
+*/
         //Para que esa figura se mueva (ej. que caiga) hay que/invocar conitnuamente mundoFisico.stepSimulation(dt) y actualizar su objeto java3d a partir de su rigidBody.
         //Por esto, para crear una figura dinamica se recomienda usar una Figura, simulada con el codigo del run(), mostrar() y actualizar()
 
@@ -177,17 +180,64 @@ public class Juego extends JFrame implements Runnable {
         //ACTUALIZAR DATOS DE FUERZAS DEL PERSONAJE CONTROLADO POR EL JUGADOR
         if (personaje != null) {
             float fuerzaElevacion = 0, fuerzaLateral = 0;
+            //--MIO
+            if (personaje.soltadoTeclaDelante) {
+                personaje.soltadoTeclaDelante = false;
+                //fuerzaElevacion = -personaje.masa * 6f * 2.5f * personaje.contadorDelanteDetras;//aplicamos fuerza opuesta
+
+                personaje.contadorDelanteDetras = 0;
+
+            }
+
+            if (personaje.soltadoTeclaDetras) {
+                personaje.soltadoTeclaDetras = false;
+                //fuerzaElevacion = personaje.masa * 6f * 2.5f * personaje.contadorDelanteDetras;//aplicamos fuerza opuesta
+
+                personaje.contadorDelanteDetras = 0;
+
+            }
+
+            if (personaje.soltadoTeclaIzquierda) {
+                personaje.soltadoTeclaIzquierda = false;
+                fuerzaLateral = -personaje.masa * 10f * personaje.contadorGiro; //aplicamos fuerza opuesta
+                personaje.contadorGiro = 0;
+
+            }
+
+            if (personaje.soltadoTeclaDerecha) {
+                personaje.soltadoTeclaDerecha = false;
+                fuerzaLateral = personaje.masa * 10f * personaje.contadorGiro; //aplicamos fuerza opuesta
+                personaje.contadorGiro = 0;
+
+            }
+            //MIO---  
             if (personaje.adelante) {
+
+                //mioinicio
+                personaje.contadorDelanteDetras++;
+                //MIOFIN
+
                 fuerzaElevacion = personaje.masa * 10f * 2.5f;
             }
             if (personaje.atras) {
+
+                //mio
+                personaje.contadorDelanteDetras++;
+                //MIO
                 fuerzaElevacion = -personaje.masa * 10f * 2.5f;
             }
+
             if (personaje.derecha) {
-                fuerzaLateral = -personaje.masa * 4f;
+                //MIO
+                personaje.contadorGiro++;
+                //MIO
+                fuerzaLateral = -personaje.masa * 20f;
             }
             if (personaje.izquierda) {
-                fuerzaLateral = personaje.masa * 4f;
+                //MIO
+                personaje.contadorGiro++;
+                //MIO
+                fuerzaLateral = personaje.masa * 20f;
             }
 
             Vector3d direccionFrente = personaje.conseguirDireccionFrontal();

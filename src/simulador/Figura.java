@@ -32,6 +32,14 @@ public class Figura {
     public Figura objetivo;                      //El objetivo puede ser: localizar otra figura,
     //Si adem‡s, hubiera que realizar uan accion particular (ej. Dispararle, darle alimento) se necesitaria otro atributo (ej. TareaObjetivo)
     public float aceleracionMuscular;
+        //--DETENER MOVIMIENTO LATERAL
+    public boolean soltadoTeclaDerecha = false;
+    public boolean soltadoTeclaIzquierda = false;
+    public boolean soltadoTeclaDelante = false;
+    public boolean soltadoTeclaDetras = false;
+    public int contadorGiro = 0;
+    public int contadorDelanteDetras = 0;
+    //DETENER MOVIMIENTO LATERAL--
 
     public Figura(BranchGroup conjunto, ArrayList<Figura> listaObjetosFisicos, Juego juego) {
         this.listaObjetosFisicos = listaObjetosFisicos;
