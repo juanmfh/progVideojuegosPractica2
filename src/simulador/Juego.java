@@ -35,7 +35,7 @@ public class Juego extends JFrame implements Runnable {
     public float tiempoJuego;
     // Pesonajes importantes del juego
     Figura personaje;
-    Figura perseguidor;
+    //Figura perseguidor;
 
     public Juego() {
         CollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
@@ -144,12 +144,12 @@ public class Juego extends JFrame implements Runnable {
 
 
         //Creando un Agente (es decir, un personaje aut—nomo) con el objetivo de perseguir al personaje controlado por teclado
-        perseguidor = new Esfera(radio, "texturas//bosques2.jpg", conjunto, listaObjetosFisicos, this);
+        /*perseguidor = new Esfera(radio, "texturas//bosques2.jpg", conjunto, listaObjetosFisicos, this);
         if (!actualizandoFisicas) {
             perseguidor.crearPropiedades(masa, elasticidad, dumpingLineal, 20, 4, -15, mundoFisico);
         }
         //perseguidor.asignarObjetivo(personaje, 15f);   //Este objetivo de perseguir DEBE actualizado para que persiga la nueva posicion del personaje
-
+        */
         //Creacion de un Terreno Simple (no es una figura, no es movil, tiene masa 0)
         float friccion = 0.5f;
         utilidades.TerrenoSimple terreno = new utilidades.TerrenoSimple(40, 40, -5, -3f, -12, "unaTextura_Desabilitada", conjunto, mundoFisico, friccion);
@@ -158,7 +158,7 @@ public class Juego extends JFrame implements Runnable {
     void actualizar(float dt) {
         //ACTUALIZAR EL ESTADO DEL JUEGO
         if (estadoJuego == 0) {
-            perseguidor.asignarObjetivo(personaje, 15f);
+            //perseguidor.asignarObjetivo(personaje, 15f);
             if (tiempoJuego > 1000) {
                 estadoJuego = 1;
             }
