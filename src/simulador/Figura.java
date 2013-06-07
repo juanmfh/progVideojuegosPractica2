@@ -18,7 +18,7 @@ public class Figura {
     public BranchGroup ramaVisible = new BranchGroup();
     public TransformGroup desplazamientoFigura = new TransformGroup();
     public RigidBody cuerpoRigido;
-    public boolean adelante, atras, izquierda, derecha, caminando, corriendo, quieto;
+    public boolean adelante, atras, izquierda, derecha, caminando, corriendo, saltando;
     public boolean esMDL;
     ArrayList<simulador.Figura> listaObjetosFisicos;
     public BranchGroup conjunto;

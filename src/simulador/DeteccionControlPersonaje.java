@@ -37,12 +37,14 @@ public class DeteccionControlPersonaje extends javax.media.j3d.Behavior {
                     else if (ek.getKeyChar() == 'a') personaje.izquierda=true;
                     else if (ek.getKeyChar() == 'd') personaje.derecha=true;
                     else if (ek.getKeyChar() == 's') personaje.atras=true;
+                    else if (ek.getKeyChar() == ' ') personaje.saltando=true;
                 }
                 else if (ek.getID() == KeyEvent.KEY_RELEASED)   {
                     if (ek.getKeyChar()== 'w') personaje.adelante=false;
                     else if (ek.getKeyChar() == 'a') personaje.izquierda=false;
                     else if (ek.getKeyChar() == 'd') personaje.derecha=false;
                     else if (ek.getKeyChar() == 's')personaje.atras=false;
+                    else if (ek.getKeyChar() == ' ') personaje.saltando=false;
                 }
           }
         }

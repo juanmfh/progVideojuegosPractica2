@@ -48,6 +48,8 @@ public class Personaje extends Figura {
     float angulo = 0;  // angulos de las extremidades
     float anguloSecundario = 0;
     float dir = 1;
+    public boolean enSalto = false;
+    Vector3f fuerzaSalto;
 
     public Personaje(float radio, BranchGroup conjunto, ArrayList<Figura> listaObjetosFisicos, Juego juego) {
         super(conjunto, listaObjetosFisicos, juego);
@@ -353,6 +355,7 @@ public class Personaje extends Figura {
         return objRoot;
     }
 
+    @Override
     public void actualizar() {
         //Opcional: ACTUALIZACION DEL ESTADO DE LA FIGURA Y DEL ESTADO DEL ENTORNO
         //Para actualizar el estado de la figura:  detectar cercanias,exploraciones picking, localizacion (cuadrantes, mundos)
@@ -368,6 +371,17 @@ public class Personaje extends Figura {
 
             angulo = angulo + (dir) * (float) (Math.PI / 15d);
             anguloSecundario = anguloSecundario + (dir) * (float) (Math.PI / 35);
+        }
+
+        if (saltando && !enSalto) {
+            fuerzaSalto = new Vector3f(0f, 3.5f, 0f);
+            enSalto = true;
+        } else {
+            fuerzaSalto = new Vector3f(0f, 0f, 0f);
+            if (!saltando) {
+                enSalto = false;
+            }
+
         }
         //Opcional: ACTUALIZACION DE PLANIFICACION A LARGO PLAZAO
         //Dependiendo del objetivo a conseguir ejecutar un plan a largo plazo
@@ -389,10 +403,11 @@ public class Personaje extends Figura {
         Transform trans = new Transform();
         if (cuerpoRigido != null && cuerpoRigido.getMotionState() != null) {
             cuerpoRigido.getMotionState().getWorldTransform(trans);
+            cuerpoRigido.applyCentralImpulse(fuerzaSalto);
             Quat4f orientacion = new Quat4f();
             cuerpoRigido.getOrientation(orientacion);
             //Transform3D rot = new Transform3D(orientacion, new Vector3f((float) trans.origin.x, (float) trans.origin.y,(float) trans.origin.z), 1); //(float) trans.origin.z
-            Transform3D rot = new Transform3D(orientacion, new Vector3f((float) trans.origin.x, (float) trans.origin.y,(float) trans.origin.z), 1);
+            Transform3D rot = new Transform3D(orientacion, new Vector3f((float) trans.origin.x, (float) trans.origin.y, (float) trans.origin.z), 1);
             desplazamientoFigura.setTransform(rot);
 
             //Actualizacion de Matriz de rotaci—n y posiciones
