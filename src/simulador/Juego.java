@@ -85,12 +85,12 @@ public class Juego extends JFrame implements Runnable {
         objRoot.addChild(mostrar);
 
         //Hola Mundo con un cubo. Puede también añadir aqui objetos Java3D  visto en los tema 2 y 3.
-        ColorCube cubo = new ColorCube(0.5f);
+        /*ColorCube cubo = new ColorCube(0.5f);
         Transform3D desplazamiento = new Transform3D();
         desplazamiento.set(new Vector3f(10f, -1.5f, -5));
         TransformGroup TGcubo = new TransformGroup(desplazamiento);
         TGcubo.addChild(cubo);
-        objRoot.addChild(TGcubo);
+        objRoot.addChild(TGcubo);*/
 
         //Hola Mundo con una esfera visual-fisica en 0, -4, 0.
         //Es sencillo crearlos estáticos como se muestra a continuacion. Sii desea que caigan, y se sometan a fuerzas, mejor crear una figura.
@@ -131,8 +131,8 @@ public class Juego extends JFrame implements Runnable {
         //Creando el personaje del juego, controlado por teclado. Tambien se pudo haber creado en CrearEscena()
         float masa = 1f;
         float radio = 1f;
-        float posX = 5f;
-        float posY = 5f, posZ = 0f;
+        float posX = 0f;
+        float posY = -1.5f, posZ = 0f;
         float elasticidad = 0.5f;
         float dumpingLineal = 0.5f;
         /*personaje = new EsferaMDL("objetosMDL/Iron_Golem.mdl",radio, conjunto, listaObjetosFisicos, this, true);
