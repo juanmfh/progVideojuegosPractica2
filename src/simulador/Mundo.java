@@ -33,7 +33,7 @@ public class Mundo {
         BranchGroup objRoot = new BranchGroup();
         
         Appearance apariencia = new Appearance();
-        apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//hierba.jpg", new Container()).getTexture());
+        apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//Bloque_Ladrillo.png", new Container()).getTexture());
         TextureAttributes texAttr = new TextureAttributes();
         texAttr.setTextureMode(TextureAttributes.MODULATE);
         apariencia.setTextureAttributes(texAttr);
@@ -85,7 +85,7 @@ public class Mundo {
         posx = 0f;
         posy = -2f;
         posz = 2.5f;
-        Box escalonVisual2 = new Box(x,y,z, aparienciaAzul);
+        Box escalonVisual2 = new Box(x,y,z, Box.GENERATE_TEXTURE_COORDS,apariencia);
         Transform3D posicionar2 = new Transform3D();
         posicionar2.set(new Vector3f(posx, posy, posz));
         TransformGroup posicionarTG2 = new TransformGroup(posicionar2);
@@ -110,7 +110,7 @@ public class Mundo {
         posx = 0f;
         posy = -1.5f;
         posz = 3f;
-        Box escalonVisual3 = new Box(x,y,z, aparienciaAzul);
+        Box escalonVisual3 = new Box(x,y,z, Box.GENERATE_TEXTURE_COORDS,apariencia);
         Transform3D posicionar3 = new Transform3D();
         posicionar3.set(new Vector3f(posx, posy, posz));
         TransformGroup posicionarTG3 = new TransformGroup(posicionar3);
@@ -135,7 +135,7 @@ public class Mundo {
         posx = 3f;
         posy = -1.5f;
         posz = 3f;
-        Box baseVisual1 = new Box(x,y,z, aparienciaAzul);
+        Box baseVisual1 = new Box(x,y,z, Box.GENERATE_TEXTURE_COORDS,apariencia);
         Transform3D posicionar4 = new Transform3D();
         posicionar4.set(new Vector3f(posx, posy, posz));
         TransformGroup posicionarTG4 = new TransformGroup(posicionar4);
@@ -160,7 +160,7 @@ public class Mundo {
         posx = 5f;
         posy = -1.5f;
         posz = 8f;
-        Box baseVisual2 = new Box(x,y,z, aparienciaAzul);
+        Box baseVisual2 = new Box(x,y,z, Box.GENERATE_TEXTURE_COORDS,apariencia);
         Transform3D posicionar5 = new Transform3D();
         posicionar5.set(new Vector3f(posx, posy, posz));
         TransformGroup posicionarTG5 = new TransformGroup(posicionar5);
@@ -185,7 +185,7 @@ public class Mundo {
         posx = 9f;
         posy = -1.5f;
         posz = 10f;
-        Box baseVisual3 = new Box(x,y,z, aparienciaAzul);
+        Box baseVisual3 = new Box(x,y,z, Box.GENERATE_TEXTURE_COORDS,apariencia);
         Transform3D posicionar6 = new Transform3D();
         posicionar6.set(new Vector3f(posx, posy, posz));
         TransformGroup posicionarTG6 = new TransformGroup(posicionar6);
@@ -210,7 +210,7 @@ public class Mundo {
         posx = 12f;
         posy = -1.5f;
         posz = 8f;
-        Box baseVisual4 = new Box(x,y,z, aparienciaAzul);
+        Box baseVisual4 = new Box(x,y,z, Box.GENERATE_TEXTURE_COORDS,apariencia);
         Transform3D posicionar7 = new Transform3D();
         posicionar7.set(new Vector3f(posx, posy, posz));
         TransformGroup posicionarTG7 = new TransformGroup(posicionar7);
