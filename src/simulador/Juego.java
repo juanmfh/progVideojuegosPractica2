@@ -314,7 +314,7 @@ public class Juego extends JFrame implements Runnable {
          transformGroupCamara.getTransform(transformCamara);*/
         Point3d posicionCamara;
         Point3d objetivoCamara;
-        if (personaje.posiciones[0]>11) {
+        if (personaje.posiciones[0]>9) {
             posicionCamara = new Point3d(personaje.posiciones[0] + 4, personaje.posiciones[1] + 3, personaje.posiciones[2] + 4);
             objetivoCamara = new Point3d(personaje.posiciones[0] - 1, personaje.posiciones[1] - 1, personaje.posiciones[2] - 1);
             
