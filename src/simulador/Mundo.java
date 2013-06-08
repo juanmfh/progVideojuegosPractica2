@@ -6,6 +6,7 @@ package simulador;
 
 import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.collision.shapes.BoxShape;
+import com.bulletphysics.collision.shapes.CylinderShape;
 import com.bulletphysics.collision.shapes.SphereShape;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.dynamics.RigidBodyConstructionInfo;
@@ -228,9 +229,33 @@ public class Mundo {
         cuerpoRigido7.setActivationState(RigidBody.DISABLE_DEACTIVATION);
         Juego.mundoFisico.addRigidBody(cuerpoRigido7); // add the body to the dynamics world
         
+        //Meta
+        x =1f;
+        y = 6f;
+
+        posx = 12f;
+        posy = -1.5f;
+        posz = -4f;
+        Cylinder baseVisual5 = new Cylinder(x,y, Box.GENERATE_TEXTURE_COORDS,apariencia);
+        Transform3D posicionar8 = new Transform3D();
+        posicionar8.set(new Vector3f(posx, posy, posz));
+        TransformGroup posicionarTG8 = new TransformGroup(posicionar8);
+        posicionarTG8.addChild(baseVisual5);
         
+        CylinderShape baseFisica5 = new CylinderShape(new Vector3f(x,y,0));
+        CollisionObject ramaFisica8 = new CollisionObject();
+        ramaFisica8.setCollisionShape(baseFisica5);
+        Transform groundTransform8 = new Transform();
+        groundTransform8.setIdentity();
+        groundTransform8.origin.set(new Vector3f(posx, posy, posz));
+        DefaultMotionState EstadoDeMovimiento8 = new DefaultMotionState(groundTransform8);
+        RigidBodyConstructionInfo InformacionCuerpoR8 = new RigidBodyConstructionInfo(0f, EstadoDeMovimiento8, baseFisica4, inerciaLocal);
+        RigidBody cuerpoRigido8 = new RigidBody(InformacionCuerpoR8);
+        cuerpoRigido8.setActivationState(RigidBody.DISABLE_DEACTIVATION);
+        Juego.mundoFisico.addRigidBody(cuerpoRigido8); // add the body to the dynamics world
         
         // Estructura
+        objRoot.addChild(posicionarTG8);
         objRoot.addChild(posicionarTG7);
         objRoot.addChild(posicionarTG6);
         objRoot.addChild(posicionarTG5);

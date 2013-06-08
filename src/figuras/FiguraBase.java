@@ -11,6 +11,7 @@ import com.bulletphysics.linearmath.Transform;
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.Cylinder;
 import com.sun.j3d.utils.image.TextureLoader;
+import java.awt.Container;
 import java.util.ArrayList;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
@@ -37,6 +38,8 @@ public class FiguraBase extends Figura{
         super(conjunto, listaObjetosFisicos, juego);
         esMDL = false;
         
+        
+        
         TransformGroup figuraVisual = crearFiguraBase();
         BoxShape figuraFisica = new BoxShape(dimensiones);
         ramaFisica = new CollisionObject();
@@ -54,7 +57,11 @@ public class FiguraBase extends Figura{
         rotadorFigura.addChild(figura);*
         */
         
-        
+        Appearance apariencia = new Appearance();
+        apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//Bloque_Ladrillo.png", new Container()).getTexture());
+        TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        apariencia.setTextureAttributes(texAttr);
         
         
         ColoringAttributes colorAzul = new ColoringAttributes(0f, 0f, 1f, ColoringAttributes.FASTEST);
@@ -85,7 +92,7 @@ public class FiguraBase extends Figura{
         movimientoPenduloTG = new TransformGroup();
         movimientoPenduloTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
         
-        movimientoPenduloTG.addChild(new Box(1f,0.2f,1f,aparienciaAzul));
+        movimientoPenduloTG.addChild(new Box(1f,0.2f,1f,Box.GENERATE_TEXTURE_COORDS,apariencia));
         return movimientoPenduloTG;
     }
 

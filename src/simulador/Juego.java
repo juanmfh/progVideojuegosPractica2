@@ -87,44 +87,44 @@ public class Juego extends JFrame implements Runnable {
 
         //Hola Mundo con un cubo. Puede tambiŽn a–adir aqui objetos Java3D  visto en los tema 2 y 3.
         /*ColorCube cubo = new ColorCube(0.5f);
-        Transform3D desplazamiento = new Transform3D();
-        desplazamiento.set(new Vector3f(10f, -1.5f, -5));
-        TransformGroup TGcubo = new TransformGroup(desplazamiento);
-        TGcubo.addChild(cubo);
-        objRoot.addChild(TGcubo);*/
-        
+         Transform3D desplazamiento = new Transform3D();
+         desplazamiento.set(new Vector3f(10f, -1.5f, -5));
+         TransformGroup TGcubo = new TransformGroup(desplazamiento);
+         TGcubo.addChild(cubo);
+         objRoot.addChild(TGcubo);*/
+
         // crear mundo
         objRoot.addChild(Mundo.crearMundo());
 
         //Hola Mundo con una esfera visual-fisica en 0, -4, 0.
         //Es sencillo crearlos est‡ticos como se muestra a continuacion. Sii desea que caigan, y se sometan a fuerzas, mejor crear una figura.
         /*float radio = 2f;
-        float posY = -4f;
-        Appearance apariencia = new Appearance();
-        apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//texturas//ladrillo.jpg", this).getTexture());
-        TextureAttributes texAttr = new TextureAttributes();
-        texAttr.setTextureMode(TextureAttributes.MODULATE);
-        apariencia.setTextureAttributes(texAttr);
-        Sphere figuraVisual = new Sphere(radio, Sphere.GENERATE_TEXTURE_COORDS, 60, apariencia);
-        Transform3D desplazamiento2 = new Transform3D();
-        desplazamiento2.set(new Vector3f(0f, posY, 0));
-        TransformGroup TGesferaFija = new TransformGroup(desplazamiento2);
-        TGesferaFija.addChild(figuraVisual);
-        objRoot.addChild(TGesferaFija);
-        float masa = 0f;                                                       //con masa =0 el objeto es est‡tico
-        SphereShape figuraFisica = new SphereShape(radio);
-        CollisionObject ramaFisica = new CollisionObject();
-        ramaFisica.setCollisionShape(figuraFisica);
-        Transform groundTransform = new Transform();
-        groundTransform.setIdentity();
-        groundTransform.origin.set(new Vector3f(0, posY, 0));
-        Vector3f inerciaLocal = new Vector3f(0, 0, 0);
-        DefaultMotionState EstadoDeMovimiento = new DefaultMotionState(groundTransform);
-        RigidBodyConstructionInfo InformacionCuerpoR = new RigidBodyConstructionInfo(masa, EstadoDeMovimiento, figuraFisica, inerciaLocal);
-        RigidBody cuerpoRigido = new RigidBody(InformacionCuerpoR);
-        cuerpoRigido.setActivationState(RigidBody.DISABLE_DEACTIVATION);
-        mundoFisico.addRigidBody(cuerpoRigido); // add the body to the dynamics world
-*/
+         float posY = -4f;
+         Appearance apariencia = new Appearance();
+         apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//texturas//ladrillo.jpg", this).getTexture());
+         TextureAttributes texAttr = new TextureAttributes();
+         texAttr.setTextureMode(TextureAttributes.MODULATE);
+         apariencia.setTextureAttributes(texAttr);
+         Sphere figuraVisual = new Sphere(radio, Sphere.GENERATE_TEXTURE_COORDS, 60, apariencia);
+         Transform3D desplazamiento2 = new Transform3D();
+         desplazamiento2.set(new Vector3f(0f, posY, 0));
+         TransformGroup TGesferaFija = new TransformGroup(desplazamiento2);
+         TGesferaFija.addChild(figuraVisual);
+         objRoot.addChild(TGesferaFija);
+         float masa = 0f;                                                       //con masa =0 el objeto es est‡tico
+         SphereShape figuraFisica = new SphereShape(radio);
+         CollisionObject ramaFisica = new CollisionObject();
+         ramaFisica.setCollisionShape(figuraFisica);
+         Transform groundTransform = new Transform();
+         groundTransform.setIdentity();
+         groundTransform.origin.set(new Vector3f(0, posY, 0));
+         Vector3f inerciaLocal = new Vector3f(0, 0, 0);
+         DefaultMotionState EstadoDeMovimiento = new DefaultMotionState(groundTransform);
+         RigidBodyConstructionInfo InformacionCuerpoR = new RigidBodyConstructionInfo(masa, EstadoDeMovimiento, figuraFisica, inerciaLocal);
+         RigidBody cuerpoRigido = new RigidBody(InformacionCuerpoR);
+         cuerpoRigido.setActivationState(RigidBody.DISABLE_DEACTIVATION);
+         mundoFisico.addRigidBody(cuerpoRigido); // add the body to the dynamics world
+         */
         //Para que esa figura se mueva (ej. que caiga) hay que/invocar conitnuamente mundoFisico.stepSimulation(dt) y actualizar su objeto java3d a partir de su rigidBody.
         //Por esto, para crear una figura dinamica se recomienda usar una Figura, simulada con el codigo del run(), mostrar() y actualizar()
 
@@ -142,22 +142,27 @@ public class Juego extends JFrame implements Runnable {
         /*personaje = new EsferaMDL("objetosMDL/Iron_Golem.mdl",radio, conjunto, listaObjetosFisicos, this, true);
          personaje.crearPropiedades(masa, elasticidad, 0.5f, posX, posY, posZ, mundoFisico);
          personaje.cuerpoRigido.setDamping(0.7f, 0.9f);*/
-        personaje = new Personaje(0.5f,conjunto, listaObjetosFisicos, this);
+        personaje = new Personaje(0.5f, conjunto, listaObjetosFisicos, this);
         personaje.crearPropiedades(masa, elasticidad, dumpingLineal, posX, posY, posZ, mundoFisico);
         personaje.cuerpoRigido.setDamping(0.7f, 0.9f);
-        
+
         //Figura Base 1
-        FiguraBase figuraBase = new FiguraBase(new Vector3f(1f,0.2f,1f),conjunto, listaObjetosFisicos, this);
-        figuraBase.crearPropiedades(80f, elasticidad, dumpingLineal, 10, 1, 2, mundoFisico);
+        FiguraBase figuraBase = new FiguraBase(new Vector3f(1f, 0.2f, 1f), conjunto, listaObjetosFisicos, this);
+        figuraBase.crearPropiedades(80f, elasticidad, dumpingLineal, 12, 1, 4, mundoFisico);
         figuraBase.cuerpoRigido.setDamping(0.7f, 0.9f);
+
+        //Figura Base 2
+        FiguraBase figuraBase2 = new FiguraBase(new Vector3f(1f, 0.2f, 1f), conjunto, listaObjetosFisicos, this);
+        figuraBase2.crearPropiedades(80f, elasticidad, dumpingLineal, 12, 1, -0.5f, mundoFisico);
+        figuraBase2.cuerpoRigido.setDamping(0.7f, 0.9f);
 
         //Creando un Agente (es decir, un personaje aut—nomo) con el objetivo de perseguir al personaje controlado por teclado
         /*perseguidor = new Esfera(radio, "texturas//bosques2.jpg", conjunto, listaObjetosFisicos, this);
-        if (!actualizandoFisicas) {
-            perseguidor.crearPropiedades(masa, elasticidad, dumpingLineal, 20, 4, -15, mundoFisico);
-        }
-        //perseguidor.asignarObjetivo(personaje, 15f);   //Este objetivo de perseguir DEBE actualizado para que persiga la nueva posicion del personaje
-        */
+         if (!actualizandoFisicas) {
+         perseguidor.crearPropiedades(masa, elasticidad, dumpingLineal, 20, 4, -15, mundoFisico);
+         }
+         //perseguidor.asignarObjetivo(personaje, 15f);   //Este objetivo de perseguir DEBE actualizado para que persiga la nueva posicion del personaje
+         */
         //Creacion de un Terreno Simple (no es una figura, no es movil, tiene masa 0)
         float friccion = 0.5f;
         utilidades.TerrenoSimple terreno = new utilidades.TerrenoSimple(40, 40, -5, -3f, -12, "unaTextura_Desabilitada", conjunto, mundoFisico, friccion);
@@ -246,7 +251,7 @@ public class Juego extends JFrame implements Runnable {
             }
 
             Vector3d direccionFrente = personaje.conseguirDireccionFrontal();
-            personaje.cuerpoRigido.applyCentralForce(new Vector3f((float) direccionFrente.x * fuerzaElevacion * 0.1f, 0, (float) direccionFrente.z * fuerzaElevacion * 0.1f)); 
+            personaje.cuerpoRigido.applyCentralForce(new Vector3f((float) direccionFrente.x * fuerzaElevacion * 0.1f, 0, (float) direccionFrente.z * fuerzaElevacion * 0.1f));
             personaje.cuerpoRigido.applyTorque(new Vector3f(0, fuerzaLateral, 0));
         }
 
@@ -294,7 +299,7 @@ public class Juego extends JFrame implements Runnable {
         while (estadoJuego != -1) {
             try {
                 actualizar(dt);
-                
+
             } catch (Exception e) {
                 System.out.println("Error durante actualizar. Estado del juego " + estadoJuego);
             }
@@ -317,15 +322,22 @@ public class Juego extends JFrame implements Runnable {
             System.out.println(e.toString());
         }
     }
-    
-    public void actualizarCamara(){
-        
+
+    public void actualizarCamara() {
+
         /*TransformGroup transformGroupCamara = universo.getViewingPlatform().getViewPlatformTransform();
-        Transform3D transformCamara = new Transform3D();
-        transformGroupCamara.getTransform(transformCamara);*/
-        
-        Point3d posicionCamara = new Point3d(personaje.posiciones[0] - 4, personaje.posiciones[1] + 3, personaje.posiciones[2] - 4);
-        Point3d objetivoCamara = new Point3d(personaje.posiciones[0] + 1, personaje.posiciones[1] + 1, personaje.posiciones[2] + 1);
+         Transform3D transformCamara = new Transform3D();
+         transformGroupCamara.getTransform(transformCamara);*/
+        Point3d posicionCamara;
+        Point3d objetivoCamara;
+        if (personaje.posiciones[0]>11) {
+            posicionCamara = new Point3d(personaje.posiciones[0] + 4, personaje.posiciones[1] + 3, personaje.posiciones[2] + 4);
+            objetivoCamara = new Point3d(personaje.posiciones[0] - 1, personaje.posiciones[1] - 1, personaje.posiciones[2] - 1);
+            
+        } else {
+            posicionCamara = new Point3d(personaje.posiciones[0] - 4, personaje.posiciones[1] + 3, personaje.posiciones[2] - 4);
+            objetivoCamara = new Point3d(personaje.posiciones[0] + 1, personaje.posiciones[1] + 1, personaje.posiciones[2] + 1);
+        }
         Transform3D datosConfiguracionCamara = new Transform3D();
         datosConfiguracionCamara.lookAt(posicionCamara, objetivoCamara, new Vector3d(1, 1, 1)); // posSonar
         try {
