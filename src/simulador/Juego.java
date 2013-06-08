@@ -18,6 +18,7 @@ import com.sun.j3d.utils.geometry.ColorCube;
 import com.sun.j3d.utils.geometry.Sphere;
 import com.sun.j3d.utils.image.TextureLoader;
 import figuras.Esfera;
+import figuras.FiguraBase;
 import figuras.Personaje;
 
 public class Juego extends JFrame implements Runnable {
@@ -144,7 +145,11 @@ public class Juego extends JFrame implements Runnable {
         personaje = new Personaje(0.5f,conjunto, listaObjetosFisicos, this);
         personaje.crearPropiedades(masa, elasticidad, dumpingLineal, posX, posY, posZ, mundoFisico);
         personaje.cuerpoRigido.setDamping(0.7f, 0.9f);
-
+        
+        //Figura Base 1
+        FiguraBase figuraBase = new FiguraBase(new Vector3f(1f,0.2f,1f),conjunto, listaObjetosFisicos, this);
+        figuraBase.crearPropiedades(80f, elasticidad, dumpingLineal, 10, 1, 2, mundoFisico);
+        figuraBase.cuerpoRigido.setDamping(0.7f, 0.9f);
 
         //Creando un Agente (es decir, un personaje aut—nomo) con el objetivo de perseguir al personaje controlado por teclado
         /*perseguidor = new Esfera(radio, "texturas//bosques2.jpg", conjunto, listaObjetosFisicos, this);

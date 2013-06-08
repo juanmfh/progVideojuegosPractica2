@@ -122,10 +122,10 @@ public class Mundo {
         Juego.mundoFisico.addRigidBody(cuerpoRigido3); // add the body to the dynamics world
         
         //Base1
-        x =5f;
+        x =1f;
         y = 1f;
         z= 1f;
-        posx = 6f;
+        posx = 3f;
         posy = -1.5f;
         posz = 3f;
         Box baseVisual1 = new Box(x,y,z, aparienciaAzul);
@@ -146,10 +146,87 @@ public class Mundo {
         cuerpoRigido4.setActivationState(RigidBody.DISABLE_DEACTIVATION);
         Juego.mundoFisico.addRigidBody(cuerpoRigido4); // add the body to the dynamics world
         
-        //Pendulo1
-        Cylinder c = new Cylinder();
+        //Base2
+        x =1f;
+        y = 1f;
+        z= 1f;
+        posx = 5f;
+        posy = -1.5f;
+        posz = 8f;
+        Box baseVisual2 = new Box(x,y,z, aparienciaAzul);
+        Transform3D posicionar5 = new Transform3D();
+        posicionar5.set(new Vector3f(posx, posy, posz));
+        TransformGroup posicionarTG5 = new TransformGroup(posicionar5);
+        posicionarTG5.addChild(baseVisual2);
+        
+        BoxShape baseFisica2 = new BoxShape(new Vector3f(x,y,z));
+        CollisionObject ramaFisica5 = new CollisionObject();
+        ramaFisica5.setCollisionShape(baseFisica2);
+        Transform groundTransform5 = new Transform();
+        groundTransform5.setIdentity();
+        groundTransform5.origin.set(new Vector3f(posx, posy, posz));
+        DefaultMotionState EstadoDeMovimiento5 = new DefaultMotionState(groundTransform5);
+        RigidBodyConstructionInfo InformacionCuerpoR5 = new RigidBodyConstructionInfo(0f, EstadoDeMovimiento5, baseFisica2, inerciaLocal);
+        RigidBody cuerpoRigido5 = new RigidBody(InformacionCuerpoR5);
+        cuerpoRigido5.setActivationState(RigidBody.DISABLE_DEACTIVATION);
+        Juego.mundoFisico.addRigidBody(cuerpoRigido5); // add the body to the dynamics world
+        
+        //Base3
+        x =1f;
+        y = 1.7f;
+        z= 1f;
+        posx = 9f;
+        posy = -1.5f;
+        posz = 10f;
+        Box baseVisual3 = new Box(x,y,z, aparienciaAzul);
+        Transform3D posicionar6 = new Transform3D();
+        posicionar6.set(new Vector3f(posx, posy, posz));
+        TransformGroup posicionarTG6 = new TransformGroup(posicionar6);
+        posicionarTG6.addChild(baseVisual3);
+        
+        BoxShape baseFisica3 = new BoxShape(new Vector3f(x,y,z));
+        CollisionObject ramaFisica6 = new CollisionObject();
+        ramaFisica6.setCollisionShape(baseFisica3);
+        Transform groundTransform6 = new Transform();
+        groundTransform6.setIdentity();
+        groundTransform6.origin.set(new Vector3f(posx, posy, posz));
+        DefaultMotionState EstadoDeMovimiento6 = new DefaultMotionState(groundTransform6);
+        RigidBodyConstructionInfo InformacionCuerpoR6 = new RigidBodyConstructionInfo(0f, EstadoDeMovimiento6, baseFisica3, inerciaLocal);
+        RigidBody cuerpoRigido6 = new RigidBody(InformacionCuerpoR6);
+        cuerpoRigido6.setActivationState(RigidBody.DISABLE_DEACTIVATION);
+        Juego.mundoFisico.addRigidBody(cuerpoRigido6); // add the body to the dynamics world
+        
+        //Base4
+        x =1f;
+        y = 2.1f;
+        z= 1f;
+        posx = 12f;
+        posy = -1.5f;
+        posz = 8f;
+        Box baseVisual4 = new Box(x,y,z, aparienciaAzul);
+        Transform3D posicionar7 = new Transform3D();
+        posicionar7.set(new Vector3f(posx, posy, posz));
+        TransformGroup posicionarTG7 = new TransformGroup(posicionar7);
+        posicionarTG7.addChild(baseVisual4);
+        
+        BoxShape baseFisica4 = new BoxShape(new Vector3f(x,y,z));
+        CollisionObject ramaFisica7 = new CollisionObject();
+        ramaFisica7.setCollisionShape(baseFisica4);
+        Transform groundTransform7 = new Transform();
+        groundTransform7.setIdentity();
+        groundTransform7.origin.set(new Vector3f(posx, posy, posz));
+        DefaultMotionState EstadoDeMovimiento7 = new DefaultMotionState(groundTransform7);
+        RigidBodyConstructionInfo InformacionCuerpoR7 = new RigidBodyConstructionInfo(0f, EstadoDeMovimiento7, baseFisica4, inerciaLocal);
+        RigidBody cuerpoRigido7 = new RigidBody(InformacionCuerpoR7);
+        cuerpoRigido7.setActivationState(RigidBody.DISABLE_DEACTIVATION);
+        Juego.mundoFisico.addRigidBody(cuerpoRigido7); // add the body to the dynamics world
+        
+        
         
         // Estructura
+        objRoot.addChild(posicionarTG7);
+        objRoot.addChild(posicionarTG6);
+        objRoot.addChild(posicionarTG5);
         objRoot.addChild(posicionarTG4);
         objRoot.addChild(posicionarTG3);
         objRoot.addChild(posicionarTG2);
