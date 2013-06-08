@@ -148,12 +148,12 @@ public class Juego extends JFrame implements Runnable {
 
         //Figura Base 1
         FiguraBase figuraBase = new FiguraBase(new Vector3f(1f, 0.2f, 1f), conjunto, listaObjetosFisicos, this);
-        figuraBase.crearPropiedades(80f, elasticidad, dumpingLineal, 12, 1, 4, mundoFisico);
+        figuraBase.crearPropiedades(8f, elasticidad, dumpingLineal, 12, 1, 4, mundoFisico);
         figuraBase.cuerpoRigido.setDamping(0.7f, 0.9f);
 
         //Figura Base 2
         FiguraBase figuraBase2 = new FiguraBase(new Vector3f(1f, 0.2f, 1f), conjunto, listaObjetosFisicos, this);
-        figuraBase2.crearPropiedades(80f, elasticidad, dumpingLineal, 12, 1, -0.5f, mundoFisico);
+        figuraBase2.crearPropiedades(8f, elasticidad, dumpingLineal, 12, 1, -0.5f, mundoFisico);
         figuraBase2.cuerpoRigido.setDamping(0.7f, 0.9f);
 
         //Creando un Agente (es decir, un personaje aut—nomo) con el objetivo de perseguir al personaje controlado por teclado

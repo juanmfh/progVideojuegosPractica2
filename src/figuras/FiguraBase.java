@@ -99,11 +99,19 @@ public class FiguraBase extends Figura{
     
     @Override
     public void actualizar(){
-        if(posiciones[1]<0.2f && dir==-1){
-            //dir = 1;
-            //fuerzaY = new Vector3f(0);
-        }else if(posiciones[1]>1.2f && dir==1){
-            //dir = -1;
+        /*if(this.posiciones[1]<0.52f && dir==-1){
+            dir = 1;
+            fuerzaY = new Vector3f(0f,0.77f,0f);
+        }else if(this.posiciones[1]>1.2f && dir==1){
+            dir = -1;
+            fuerzaY = new Vector3f(0f,-0.47f,0f);
+        } else{
+            fuerzaY = new Vector3f(0f,0.77f,0f);
+        }*/
+        if(this.posiciones[1]>0.5){
+            fuerzaY = new Vector3f(0f,0f,0f);
+        }else{
+            fuerzaY = new Vector3f(0f,0.77f,0f);
         }
     }
     
@@ -112,7 +120,7 @@ public class FiguraBase extends Figura{
         Transform trans = new Transform();
         if (cuerpoRigido != null && cuerpoRigido.getMotionState() != null) {
             cuerpoRigido.getMotionState().getWorldTransform(trans);
-            cuerpoRigido.applyCentralImpulse(new Vector3f(0f,7.6f,0f));
+            cuerpoRigido.applyCentralImpulse(fuerzaY);
             Quat4f orientacion = new Quat4f();
             cuerpoRigido.getOrientation(orientacion);
             //Transform3D rot = new Transform3D(orientacion, new Vector3f((float) trans.origin.x, (float) trans.origin.y,(float) trans.origin.z), 1); //(float) trans.origin.z

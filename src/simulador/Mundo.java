@@ -242,14 +242,14 @@ public class Mundo {
         TransformGroup posicionarTG8 = new TransformGroup(posicionar8);
         posicionarTG8.addChild(baseVisual5);
         
-        CylinderShape baseFisica5 = new CylinderShape(new Vector3f(x,y,0));
+        CylinderShape baseFisica5 = new CylinderShape(new Vector3f(x,y/2f,0));
         CollisionObject ramaFisica8 = new CollisionObject();
         ramaFisica8.setCollisionShape(baseFisica5);
         Transform groundTransform8 = new Transform();
         groundTransform8.setIdentity();
         groundTransform8.origin.set(new Vector3f(posx, posy, posz));
         DefaultMotionState EstadoDeMovimiento8 = new DefaultMotionState(groundTransform8);
-        RigidBodyConstructionInfo InformacionCuerpoR8 = new RigidBodyConstructionInfo(0f, EstadoDeMovimiento8, baseFisica4, inerciaLocal);
+        RigidBodyConstructionInfo InformacionCuerpoR8 = new RigidBodyConstructionInfo(0f, EstadoDeMovimiento8, baseFisica5, inerciaLocal);
         RigidBody cuerpoRigido8 = new RigidBody(InformacionCuerpoR8);
         cuerpoRigido8.setActivationState(RigidBody.DISABLE_DEACTIVATION);
         Juego.mundoFisico.addRigidBody(cuerpoRigido8); // add the body to the dynamics world
