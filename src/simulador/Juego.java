@@ -170,6 +170,11 @@ public class Juego extends JFrame implements Runnable {
 
     void actualizar(float dt) {
         //ACTUALIZAR EL ESTADO DEL JUEGO
+        if(personaje.posiciones[0]-12.34f <0.25f && personaje.posiciones[0]-12.34f >-0.25f &&
+           personaje.posiciones[1]-2f<0.25f  && personaje.posiciones[1]-2f>-0.25f  &&
+           personaje.posiciones[2]+3.57f<0.25f  && personaje.posiciones[1]+3.57f>-0.25f ){
+            System.out.println("The win");
+        }
         if (estadoJuego == 0) {
             //perseguidor.asignarObjetivo(personaje, 15f);
             if (tiempoJuego > 1000) {
@@ -268,6 +273,7 @@ public class Juego extends JFrame implements Runnable {
         }
         actualizarCamara();
         this.mostrandoFisicas = false;
+       
     }
 
     public void run() {

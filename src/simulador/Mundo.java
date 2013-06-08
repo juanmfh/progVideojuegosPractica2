@@ -39,6 +39,12 @@ public class Mundo {
         texAttr.setTextureMode(TextureAttributes.MODULATE);
         apariencia.setTextureAttributes(texAttr);
         
+        Appearance apariencia2 = new Appearance();
+        apariencia2.setTexture(new TextureLoader(System.getProperty("user.dir") + "//moneda.png", new Container()).getTexture());
+        TextureAttributes texAttr2 = new TextureAttributes();
+        texAttr2.setTextureMode(TextureAttributes.MODULATE);
+        apariencia2.setTextureAttributes(texAttr2);
+        
         
         ColoringAttributes colorAzul = new ColoringAttributes(0f, 0f, 1f, ColoringAttributes.FASTEST);
         Appearance aparienciaAzul = new Appearance();
@@ -236,7 +242,7 @@ public class Mundo {
         posx = 12f;
         posy = -1.5f;
         posz = -4f;
-        Cylinder baseVisual5 = new Cylinder(x,y, Box.GENERATE_TEXTURE_COORDS,apariencia);
+        Cylinder baseVisual5 = new Cylinder(x,y, Cylinder.GENERATE_TEXTURE_COORDS,apariencia);
         Transform3D posicionar8 = new Transform3D();
         posicionar8.set(new Vector3f(posx, posy, posz));
         TransformGroup posicionarTG8 = new TransformGroup(posicionar8);
@@ -254,7 +260,34 @@ public class Mundo {
         cuerpoRigido8.setActivationState(RigidBody.DISABLE_DEACTIVATION);
         Juego.mundoFisico.addRigidBody(cuerpoRigido8); // add the body to the dynamics world
         
+        //Moneda
+        x =0.5f;
+        y = 0.2f;
+
+        posx = 12.34f;
+        posy = 2f;
+        posz = -4f;
+        Cylinder moneda = new Cylinder(x,y, Cylinder.GENERATE_TEXTURE_COORDS,apariencia2);
+        Transform3D posicionar9 = new Transform3D();
+        posicionar9.set(new Vector3f(posx, posy, posz));
+        TransformGroup posicionarTG9 = new TransformGroup(posicionar9);
+        posicionarTG9.addChild(moneda);
+        
+        CylinderShape monedaFisica = new CylinderShape(new Vector3f(x,y/2f,0));
+        CollisionObject ramaFisica9 = new CollisionObject();
+        ramaFisica9.setCollisionShape(monedaFisica);
+        Transform groundTransform9 = new Transform();
+        groundTransform9.setIdentity();
+        groundTransform9.origin.set(new Vector3f(posx, posy, posz));
+        DefaultMotionState EstadoDeMovimiento9 = new DefaultMotionState(groundTransform9);
+        RigidBodyConstructionInfo InformacionCuerpoR9 = new RigidBodyConstructionInfo(0f, EstadoDeMovimiento9, monedaFisica, inerciaLocal);
+        RigidBody cuerpoRigido9 = new RigidBody(InformacionCuerpoR9);
+        cuerpoRigido9.setActivationState(RigidBody.DISABLE_DEACTIVATION);
+        //Juego.mundoFisico.addRigidBody(cuerpoRigido9); // add the body to the dynamics world
+        
+        
         // Estructura
+        objRoot.addChild(posicionarTG9);
         objRoot.addChild(posicionarTG8);
         objRoot.addChild(posicionarTG7);
         objRoot.addChild(posicionarTG6);
