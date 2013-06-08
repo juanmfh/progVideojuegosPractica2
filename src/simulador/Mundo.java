@@ -14,6 +14,7 @@ import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.Cylinder;
+import com.sun.j3d.utils.geometry.Sphere;
 import com.sun.j3d.utils.image.TextureLoader;
 import java.awt.Container;
 import javax.media.j3d.Appearance;
@@ -285,6 +286,18 @@ public class Mundo {
         cuerpoRigido9.setActivationState(RigidBody.DISABLE_DEACTIVATION);
         //Juego.mundoFisico.addRigidBody(cuerpoRigido9); // add the body to the dynamics world
         
+        //---MIOINICIO
+        
+        
+        //Array donde cada valor es la posición de un árbol
+        Vector3f[] v = new Vector3f[3];
+        v[0] = new Vector3f(2f, -2f, 0f);
+        v[1] = new Vector3f(4.5f, -2f, 0f);
+        v[2] = new Vector3f(4.5f, -2f, -2f);
+ 
+        colocarArboles(v, objRoot);
+        //-----MIOFIN
+        
         
         // Estructura
         objRoot.addChild(posicionarTG9);
@@ -298,4 +311,96 @@ public class Mundo {
         objRoot.addChild(posicionarTG);
         return objRoot;
     }
+    
+    
+    //----MIOINICIO
+    public static void colocarArboles(Vector3f[] posiciones, BranchGroup objRoot) {
+
+        for (int i = 0; i < posiciones.length; i++) {
+
+            generarArboles(posiciones[i], objRoot);
+
+        }
+
+    }
+
+    public static void generarArboles(Vector3f posicion, BranchGroup objRoot) {
+
+
+        Appearance apariencia = new Appearance();
+        apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//corteza_arbol.jpg", new 
+Container()).getTexture());
+        TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        apariencia.setTextureAttributes(texAttr);
+
+
+        //TRONCO
+        float x = 0.14f;
+        float y = 1.5f;
+
+        float posx = posicion.x;
+        float posy = posicion.y, posz = posicion.z;
+        Cylinder tronco = new Cylinder(x, y, Cylinder.GENERATE_TEXTURE_COORDS, apariencia);
+        Transform3D posicionar = new Transform3D();
+        posicionar.set(new Vector3f(posx, posy, posz));
+        TransformGroup posicionarTG = new TransformGroup(posicionar);
+        posicionarTG.addChild(tronco);
+
+        CylinderShape baseFisica = new CylinderShape(new Vector3f(x, y / 2f, 0));
+        CollisionObject ramaFisica = new CollisionObject();
+        ramaFisica.setCollisionShape(baseFisica);
+        Transform groundTransform = new Transform();
+        groundTransform.setIdentity();
+        groundTransform.origin.set(new Vector3f(posx, posy, posz));
+        Vector3f inerciaLocal = new Vector3f(0, 0, 0);
+        DefaultMotionState EstadoDeMovimiento = new DefaultMotionState(groundTransform);
+        RigidBodyConstructionInfo InformacionCuerpoR = new RigidBodyConstructionInfo(0f, 
+EstadoDeMovimiento, baseFisica, inerciaLocal);
+        RigidBody cuerpoRigido = new RigidBody(InformacionCuerpoR);
+        cuerpoRigido.setActivationState(RigidBody.DISABLE_DEACTIVATION);
+        Juego.mundoFisico.addRigidBody(cuerpoRigido); // add the body to the dynamics world
+
+
+        //RAMAS
+
+        Appearance apariencia2 = new Appearance();
+        apariencia2.setTexture(new TextureLoader(System.getProperty("user.dir") + "//hojas_arbol.jpg", new 
+Container()).getTexture());
+        TextureAttributes texAttr2 = new TextureAttributes();
+        texAttr2.setTextureMode(TextureAttributes.MODULATE);
+        apariencia2.setTextureAttributes(texAttr2);
+
+        float radio = 0.75f;
+
+        float posxEsfera = posicion.x;
+        float posyEsfera = posicion.y + 1.3f, poszEsfera = posicion.z;
+        Sphere esfera = new Sphere(radio, Sphere.GENERATE_TEXTURE_COORDS, apariencia2);
+        Transform3D posicionarEsfera = new Transform3D();
+        posicionarEsfera.set(new Vector3f(posxEsfera, posyEsfera, poszEsfera));
+        TransformGroup posicionarTGEsfera = new TransformGroup(posicionarEsfera);
+        posicionarTGEsfera.addChild(esfera);
+
+        SphereShape baseFisicaEsfera = new SphereShape(radio);
+        CollisionObject ramaFisicaEsfera = new CollisionObject();
+        ramaFisicaEsfera.setCollisionShape(baseFisicaEsfera);
+        Transform groundTransformEsfera = new Transform();
+        groundTransformEsfera.setIdentity();
+        groundTransformEsfera.origin.set(new Vector3f(posxEsfera, posyEsfera, poszEsfera));
+        DefaultMotionState EstadoDeMovimientoEsfera = new DefaultMotionState(groundTransformEsfera);
+        RigidBodyConstructionInfo InformacionCuerpoREsfera = new RigidBodyConstructionInfo(0f, 
+EstadoDeMovimientoEsfera, baseFisicaEsfera, inerciaLocal);
+        RigidBody cuerpoRigidoEsfera = new RigidBody(InformacionCuerpoREsfera);
+        cuerpoRigidoEsfera.setActivationState(RigidBody.DISABLE_DEACTIVATION);
+        Juego.mundoFisico.addRigidBody(cuerpoRigidoEsfera); // add the body to the dynamics world
+
+
+
+
+        objRoot.addChild(posicionarTGEsfera);
+        objRoot.addChild(posicionarTG);
+
+    }
+    //---MIOFIN
+    
 }
