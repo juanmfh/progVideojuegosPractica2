@@ -19,6 +19,7 @@ import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.ColoringAttributes;
 import javax.media.j3d.Texture;
+import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Vector3f;
@@ -30,6 +31,12 @@ import javax.vecmath.Vector3f;
 public class Mundo {
     public static BranchGroup  crearMundo(){
         BranchGroup objRoot = new BranchGroup();
+        
+        Appearance apariencia = new Appearance();
+        apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//hierba.jpg", new Container()).getTexture());
+        TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        apariencia.setTextureAttributes(texAttr);
         
         
         ColoringAttributes colorAzul = new ColoringAttributes(0f, 0f, 1f, ColoringAttributes.FASTEST);
@@ -52,7 +59,7 @@ public class Mundo {
         posx = 0f;
         posy = -2.5f;
         posz = 2f;
-        Box escalonVisual1 = new Box(x,y,z, aparienciaAzul);
+        Box escalonVisual1 = new Box(x,y,z, Box.GENERATE_TEXTURE_COORDS,apariencia);
         Transform3D posicionar = new Transform3D();
         posicionar.set(new Vector3f(posx, posy, posz));
         TransformGroup posicionarTG = new TransformGroup(posicionar);

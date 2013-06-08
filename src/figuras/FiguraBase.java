@@ -10,10 +10,12 @@ import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.linearmath.Transform;
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.Cylinder;
+import com.sun.j3d.utils.image.TextureLoader;
 import java.util.ArrayList;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.ColoringAttributes;
+import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Quat4f;
@@ -51,6 +53,10 @@ public class FiguraBase extends Figura{
         TransformGroup rotadorFigura = new TransformGroup(rotacionCombinada);
         rotadorFigura.addChild(figura);*
         */
+        
+        
+        
+        
         ColoringAttributes colorAzul = new ColoringAttributes(0f, 0f, 1f, ColoringAttributes.FASTEST);
         Appearance aparienciaAzul = new Appearance ();
         aparienciaAzul.setColoringAttributes(colorAzul);
@@ -99,7 +105,7 @@ public class FiguraBase extends Figura{
         Transform trans = new Transform();
         if (cuerpoRigido != null && cuerpoRigido.getMotionState() != null) {
             cuerpoRigido.getMotionState().getWorldTransform(trans);
-            cuerpoRigido.applyCentralImpulse(new Vector3f(0f,7.5f,0f));
+            cuerpoRigido.applyCentralImpulse(new Vector3f(0f,7.6f,0f));
             Quat4f orientacion = new Quat4f();
             cuerpoRigido.getOrientation(orientacion);
             //Transform3D rot = new Transform3D(orientacion, new Vector3f((float) trans.origin.x, (float) trans.origin.y,(float) trans.origin.z), 1); //(float) trans.origin.z
