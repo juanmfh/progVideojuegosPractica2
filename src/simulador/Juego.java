@@ -191,22 +191,7 @@ public class Juego extends JFrame implements Runnable {
         if (personaje != null) {
             float fuerzaElevacion = 0, fuerzaLateral = 0;
             //--MIO
-            if (personaje.soltadoTeclaDelante) {
-                personaje.soltadoTeclaDelante = false;
-                fuerzaElevacion = -personaje.masa * 6f * 2.5f * personaje.contadorDelanteDetras;//aplicamos fuerza opuesta
-
-                personaje.contadorDelanteDetras = 0;
-
-            }
-
-            if (personaje.soltadoTeclaDetras) {
-                personaje.soltadoTeclaDetras = false;
-                fuerzaElevacion = personaje.masa * 6f * 2.5f * personaje.contadorDelanteDetras;//aplicamos fuerza opuesta
-
-                personaje.contadorDelanteDetras = 0;
-
-            }
-
+            
             if (personaje.soltadoTeclaIzquierda) {
                 personaje.soltadoTeclaIzquierda = false;
                 fuerzaLateral = -personaje.masa * 10f * personaje.contadorGiro; //aplicamos fuerza opuesta
@@ -223,17 +208,10 @@ public class Juego extends JFrame implements Runnable {
             //MIO---  
             if (personaje.adelante) {
 
-                //mioinicio
-                personaje.contadorDelanteDetras++;
-                //MIOFIN
-
                 fuerzaElevacion = personaje.masa * 10f * 2.5f;
             }
             if (personaje.atras) {
 
-                //mio
-                personaje.contadorDelanteDetras++;
-                //MIO
                 fuerzaElevacion = -personaje.masa * 10f * 2.5f;
             }
 

@@ -35,10 +35,8 @@ public class Figura {
         //--DETENER MOVIMIENTO LATERAL
     public boolean soltadoTeclaDerecha = false;
     public boolean soltadoTeclaIzquierda = false;
-    public boolean soltadoTeclaDelante = false;
-    public boolean soltadoTeclaDetras = false;
+
     public int contadorGiro = 0;
-    public int contadorDelanteDetras = 0;
     //DETENER MOVIMIENTO LATERAL--
 
     public Figura(BranchGroup conjunto, ArrayList<Figura> listaObjetosFisicos, Juego juego) {
@@ -70,7 +68,7 @@ public class Figura {
         cuerpoRigido = new RigidBody(InformacionCuerpoR);
         cuerpoRigido.setActivationState(RigidBody.DISABLE_DEACTIVATION);
         cuerpoRigido.setDamping(dumpingLineal, 0.1f);   //a–ade m‡s (1) o menos  (0) "friccion del aire" al desplazarse/caer o rotar
-        cuerpoRigido.setFriction(0.3f);
+        cuerpoRigido.setFriction(1f);
         //A–adiendo el cuerpoRigido al mundoFisico
         mundoFisico.addRigidBody(cuerpoRigido); // add the body to the dynamics world
         identificadorFisico = mundoFisico.getNumCollisionObjects() - 1;
