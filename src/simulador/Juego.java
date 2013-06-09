@@ -36,6 +36,9 @@ public class Juego extends JFrame implements Runnable {
     BranchGroup escena;
     BranchGroup letras;
     JLabel monedas;
+    boolean haEntradoEstrella = false;
+    JPanel Controles;
+    int contadorMensaje = 0;
 
     public Juego() {
         CollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
@@ -49,7 +52,7 @@ public class Juego extends JFrame implements Runnable {
 
         Container GranPanel = getContentPane();
         //MIOINICIO-----
-        JPanel Controles = new JPanel();
+        Controles = new JPanel();
 
         //MIOFIN----
 
@@ -233,109 +236,121 @@ public class Juego extends JFrame implements Runnable {
     }
 
     void actualizar(float dt) {
+
+
         //ACTUALIZAR EL ESTADO DEL JUEGO
         if (personaje.posiciones[0] - 12.34f < 0.25f && personaje.posiciones[0] - 12.34f > -0.25f
                 && personaje.posiciones[1] - 2f < 0.25f && personaje.posiciones[1] - 2f > -0.25f
-                && personaje.posiciones[2] + 3.57f < 0.25f && personaje.posiciones[1] + 3.57f > -0.25f) {
-            System.out.println("The win");
+                && personaje.posiciones[2] + 3.57f < 0.25f && personaje.posiciones[2] + 3.57f > -0.25f
+                && haEntradoEstrella) {
+
+            mostrarFinal();
 
             //escena.addChild(textShape);
             //letras.addChild(textShape);
             //escena.addChild(letras);
         }
 
-        for (Moneda m : Mundo.listaMonedas) {
-            float difX = Math.abs(personaje.posiciones[0] - m.getPosicion().x);
-            float difY = Math.abs(personaje.posiciones[1] - m.getPosicion().y);
-            float difZ = Math.abs(personaje.posiciones[2] - m.getPosicion().z);
+        if (estadoJuego != -1) {
+            if (this.getMonedas() == 1 && !haEntradoEstrella) {
+                Mundo.raizEstrella.addChild(Mundo.estrella);
+                haEntradoEstrella = true;
+            }
 
-            if (difX < 0.25f && difY < 0.25f && difZ < 0.25f) {
-                Mundo.bgRaizMonedas.removeChild(m.getBgmoneda());
-                if(!m.isCogida()){
-                    consigueMoneda();
-                    m.setCogida(true);
+            for (Moneda m : Mundo.listaMonedas) {
+                float difX = Math.abs(personaje.posiciones[0] - m.getPosicion().x);
+                float difY = Math.abs(personaje.posiciones[1] - m.getPosicion().y);
+                float difZ = Math.abs(personaje.posiciones[2] - m.getPosicion().z);
+
+                if (difX < 0.25f && difY < 0.25f && difZ < 0.25f) {
+                    Mundo.bgRaizMonedas.removeChild(m.getBgmoneda());
+                    if (!m.isCogida()) {
+                        consigueMoneda();
+                        m.setCogida(true);
+                    }
+                }
+
+            }
+
+            if (estadoJuego == 0) {
+                //perseguidor.asignarObjetivo(personaje, 15f);
+                if (tiempoJuego > 1000) {
+                    estadoJuego = 1;
+                }
+            } else if (estadoJuego == 1) {
+                //Removiendo las figuras dinamicas. El juego continua 10 segundos mas
+                int i = 1;
+                while (listaObjetosFisicos.size() > i) {
+                    listaObjetosFisicos.get(i).remover();      //Elimina a pertir de la i-esima figura
+                }
+                if (tiempoJuego > 20000) {
+                    estadoJuego = -1;                                                                    //Con estado del juego -1 el juego termina
+                    System.out.println("Fin del juego");
                 }
             }
 
+            //ACTUALIZAR DATOS DE FUERZAS DEL PERSONAJE CONTROLADO POR EL JUGADOR
+            if (personaje != null) {
+                float fuerzaElevacion = 0, fuerzaLateral = 0;
+                //--MIO
+
+                if (personaje.soltadoTeclaIzquierda) {
+                    personaje.soltadoTeclaIzquierda = false;
+                    fuerzaLateral = -personaje.masa * 10f * personaje.contadorGiro; //aplicamos fuerza opuesta
+                    personaje.contadorGiro = 0;
+
+                }
+
+                if (personaje.soltadoTeclaDerecha) {
+                    personaje.soltadoTeclaDerecha = false;
+                    fuerzaLateral = personaje.masa * 10f * personaje.contadorGiro; //aplicamos fuerza opuesta
+                    personaje.contadorGiro = 0;
+
+                }
+                //MIO---  
+                if (personaje.adelante) {
+
+                    fuerzaElevacion = personaje.masa * 10f * 2.5f;
+                }
+                if (personaje.atras) {
+
+                    fuerzaElevacion = -personaje.masa * 10f * 2.5f;
+                }
+
+                if (personaje.derecha) {
+                    //MIO
+                    personaje.contadorGiro++;
+                    //MIO
+                    fuerzaLateral = -personaje.masa * 20f;
+                }
+                if (personaje.izquierda) {
+                    //MIO
+                    personaje.contadorGiro++;
+                    //MIO
+                    fuerzaLateral = personaje.masa * 20f;
+                }
+
+                Vector3d direccionFrente = personaje.conseguirDireccionFrontal();
+                personaje.cuerpoRigido.applyCentralForce(new Vector3f((float) direccionFrente.x * fuerzaElevacion * 0.1f, 0, (float) direccionFrente.z * fuerzaElevacion * 0.1f));
+                personaje.cuerpoRigido.applyTorque(new Vector3f(0, fuerzaLateral, 0));
+            }
+
+            //ACTUALIZAR DATOS DE FUERZAS DE LAS FIGURAS AUTONOMAS  (ej. para que cada figura pueda persiguir su objetivo)
+            for (int i = 0; i < this.listaObjetosFisicos.size(); i++) {
+                listaObjetosFisicos.get(i).actualizar();
+            }
+
+            //ACTUALIZAR DATOS DE LOCALIZACION DE FIGURAS FISICAS
+            this.actualizandoFisicas = true;
+            try {
+                mundoFisico.stepSimulation(dt);    //mundoFisico.stepSimulation ( dt  ,50000, dt*0.2f);
+            } catch (Exception e) {
+                System.out.println("JBullet forzado. No debe crearPropiedades de solidoRigidos durante la actualizacion stepSimulation");
+            }
+            this.actualizandoFisicas = false;
+            tiempoJuego = tiempoJuego + dt;
         }
 
-        if (estadoJuego == 0) {
-            //perseguidor.asignarObjetivo(personaje, 15f);
-            if (tiempoJuego > 1000) {
-                estadoJuego = 1;
-            }
-        } else if (estadoJuego == 1) {
-            //Removiendo las figuras dinamicas. El juego continua 10 segundos mas
-            int i = 1;
-            while (listaObjetosFisicos.size() > i) {
-                listaObjetosFisicos.get(i).remover();      //Elimina a pertir de la i-esima figura
-            }
-            if (tiempoJuego > 20000) {
-                estadoJuego = -1;                                                                    //Con estado del juego -1 el juego termina
-                System.out.println("Fin del juego");
-            }
-        }
-
-        //ACTUALIZAR DATOS DE FUERZAS DEL PERSONAJE CONTROLADO POR EL JUGADOR
-        if (personaje != null) {
-            float fuerzaElevacion = 0, fuerzaLateral = 0;
-            //--MIO
-
-            if (personaje.soltadoTeclaIzquierda) {
-                personaje.soltadoTeclaIzquierda = false;
-                fuerzaLateral = -personaje.masa * 10f * personaje.contadorGiro; //aplicamos fuerza opuesta
-                personaje.contadorGiro = 0;
-
-            }
-
-            if (personaje.soltadoTeclaDerecha) {
-                personaje.soltadoTeclaDerecha = false;
-                fuerzaLateral = personaje.masa * 10f * personaje.contadorGiro; //aplicamos fuerza opuesta
-                personaje.contadorGiro = 0;
-
-            }
-            //MIO---  
-            if (personaje.adelante) {
-
-                fuerzaElevacion = personaje.masa * 10f * 2.5f;
-            }
-            if (personaje.atras) {
-
-                fuerzaElevacion = -personaje.masa * 10f * 2.5f;
-            }
-
-            if (personaje.derecha) {
-                //MIO
-                personaje.contadorGiro++;
-                //MIO
-                fuerzaLateral = -personaje.masa * 20f;
-            }
-            if (personaje.izquierda) {
-                //MIO
-                personaje.contadorGiro++;
-                //MIO
-                fuerzaLateral = personaje.masa * 20f;
-            }
-
-            Vector3d direccionFrente = personaje.conseguirDireccionFrontal();
-            personaje.cuerpoRigido.applyCentralForce(new Vector3f((float) direccionFrente.x * fuerzaElevacion * 0.1f, 0, (float) direccionFrente.z * fuerzaElevacion * 0.1f));
-            personaje.cuerpoRigido.applyTorque(new Vector3f(0, fuerzaLateral, 0));
-        }
-
-        //ACTUALIZAR DATOS DE FUERZAS DE LAS FIGURAS AUTONOMAS  (ej. para que cada figura pueda persiguir su objetivo)
-        for (int i = 0; i < this.listaObjetosFisicos.size(); i++) {
-            listaObjetosFisicos.get(i).actualizar();
-        }
-
-        //ACTUALIZAR DATOS DE LOCALIZACION DE FIGURAS FISICAS
-        this.actualizandoFisicas = true;
-        try {
-            mundoFisico.stepSimulation(dt);    //mundoFisico.stepSimulation ( dt  ,50000, dt*0.2f);
-        } catch (Exception e) {
-            System.out.println("JBullet forzado. No debe crearPropiedades de solidoRigidos durante la actualizacion stepSimulation");
-        }
-        this.actualizandoFisicas = false;
-        tiempoJuego = tiempoJuego + dt;
     }
 
     void mostrar() throws Exception {
@@ -424,6 +439,24 @@ public class Juego extends JFrame implements Runnable {
 
     public void setMonedas(int numMonedas) {
         monedas.setText(numMonedas + "");
+    }
+
+    public void mostrarFinal() {
+        monedas.setText("---¡¡¡YOU WIN!!!---");
+        
+        if (contadorMensaje == 30) {
+            Controles.setBackground(Color.red);
+            System.out.println("entrarojo");
+        }
+        if (contadorMensaje == 60) {
+            Controles.setBackground(Color.blue);
+            contadorMensaje = 0;
+            System.out.println("entraazul");
+        }
+        System.out.println(contadorMensaje);
+        estadoJuego = -1;
+        contadorMensaje++;
+
     }
 
     public void consigueMoneda() {

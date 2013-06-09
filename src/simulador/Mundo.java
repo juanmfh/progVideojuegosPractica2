@@ -36,6 +36,9 @@ public class Mundo {
     //MIOINICIO-----------
     public static BranchGroup bgRaizMonedas = new BranchGroup();
     public static Moneda[] listaMonedas;
+    
+    public static BranchGroup raizEstrella = new BranchGroup();
+    public static BranchGroup estrella = new BranchGroup();
 
     //MIOFIN-----------
     public static BranchGroup crearMundo() {
@@ -47,11 +50,7 @@ public class Mundo {
         texAttr.setTextureMode(TextureAttributes.MODULATE);
         apariencia.setTextureAttributes(texAttr);
 
-        Appearance apariencia2 = new Appearance();
-        apariencia2.setTexture(new TextureLoader(System.getProperty("user.dir") + "//Estrella.png", new Container()).getTexture());
-        TextureAttributes texAttr2 = new TextureAttributes();
-        texAttr2.setTextureMode(TextureAttributes.MODULATE);
-        apariencia2.setTextureAttributes(texAttr2);
+
 
 
         ColoringAttributes colorAzul = new ColoringAttributes(0f, 0f, 1f, ColoringAttributes.FASTEST);
@@ -268,36 +267,12 @@ public class Mundo {
         cuerpoRigido8.setActivationState(RigidBody.DISABLE_DEACTIVATION);
         Juego.mundoFisico.addRigidBody(cuerpoRigido8); // add the body to the dynamics world
 
-        //Estrella
-        x = 0.5f;
-        y = 0.2f;
 
-        posx = 12.34f;
-        posy = 2f;
-        posz = -4f;
-        Cylinder moneda = new Cylinder(x, y, Cylinder.GENERATE_TEXTURE_COORDS, apariencia2);
-        Transform3D posicionar9 = new Transform3D();
-        posicionar9.set(new Vector3f(posx, posy, posz));
-        Transform3D girar9 = new Transform3D();
-        girar9.rotX(Math.PI / 2);
-        posicionar9.mul(girar9);
-        TransformGroup posicionarTG9 = new TransformGroup(posicionar9);
-        posicionarTG9.addChild(moneda);
-
-        CylinderShape monedaFisica = new CylinderShape(new Vector3f(x, y / 2f, 0));
-        CollisionObject ramaFisica9 = new CollisionObject();
-        ramaFisica9.setCollisionShape(monedaFisica);
-        Transform groundTransform9 = new Transform();
-        groundTransform9.setIdentity();
-        groundTransform9.origin.set(new Vector3f(posx, posy, posz));
-        DefaultMotionState EstadoDeMovimiento9 = new DefaultMotionState(groundTransform9);
-        RigidBodyConstructionInfo InformacionCuerpoR9 = new RigidBodyConstructionInfo(0f, EstadoDeMovimiento9, monedaFisica, inerciaLocal);
-        RigidBody cuerpoRigido9 = new RigidBody(InformacionCuerpoR9);
-        cuerpoRigido9.setActivationState(RigidBody.DISABLE_DEACTIVATION);
-        //Juego.mundoFisico.addRigidBody(cuerpoRigido9); // add the body to the dynamics world
 
         //---MIOINICIO
 
+        generarEstrella(objRoot);
+        
         //Array donde cada valor es la posición de un árbol
         Vector3f[] v = new Vector3f[16];
         v[0] = new Vector3f(2f, -2f, 0f);
@@ -350,7 +325,7 @@ public class Mundo {
 
 
         // Estructura
-        objRoot.addChild(posicionarTG9);
+        
         objRoot.addChild(posicionarTG8);
         objRoot.addChild(posicionarTG7);
         objRoot.addChild(posicionarTG6);
@@ -533,35 +508,7 @@ public class Mundo {
 
         float posx = posicion.x;
         float posy = posicion.y, posz = posicion.z;
-        /*Cylinder tronco = new Cylinder(x, y, Cylinder.GENERATE_TEXTURE_COORDS, apariencia);
-         Transform3D posicionar = new Transform3D();
-         posicionar.set(new Vector3f(posx, posy, posz));
-         Transform3D rotar = new Transform3D();
-         rotar.rotX(Math.PI / 2);
-         posicionar.mul(rotar);
-         TransformGroup posicionarTG = new TransformGroup(posicionar);
-         posicionarTG.addChild(tronco);
 
-         CylinderShape baseFisica = new CylinderShape(new Vector3f(x, y / 2f, 0));
-         CollisionObject ramaFisica = new CollisionObject();
-         ramaFisica.setCollisionShape(baseFisica);
-         Transform groundTransform = new Transform();
-         groundTransform.setIdentity();
-         groundTransform.origin.set(new Vector3f(posx, posy, posz));
-         Vector3f inerciaLocal = new Vector3f(0, 0, 0);
-         DefaultMotionState EstadoDeMovimiento = new DefaultMotionState(groundTransform);
-         RigidBodyConstructionInfo InformacionCuerpoR = new RigidBodyConstructionInfo(0f,
-         EstadoDeMovimiento, baseFisica, inerciaLocal);
-         RigidBody cuerpoRigido = new RigidBody(InformacionCuerpoR);
-         cuerpoRigido.setActivationState(RigidBody.DISABLE_DEACTIVATION);
-         Juego.mundoFisico.addRigidBody(cuerpoRigido); // add the body to the dynamics world
-
-
-
-         objRoot.addChild(posicionarTG);*/
-
-
-        ////////////NUEVOINICIO////////////////////////
 
         BranchGroup bgMoneda = new BranchGroup();
         bgMoneda.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
@@ -592,15 +539,66 @@ public class Mundo {
 
         tgMoneda.addChild(new Cylinder(x, y, Cylinder.GENERATE_TEXTURE_COORDS, apariencia));
 
-        /////////NUEVO
         bgRaizMonedas.addChild(bgMoneda);
 
-        /////////
+
 
         //creamos el objeto moneda que guarda los datos
         return new Moneda(bgMoneda, new Vector3f(posx, posy, posz), tgMoneda);
 
 
     }
+    
+    
+    public static void generarEstrella(BranchGroup objRoot){
+                  
+        
+        
+        Appearance apariencia = new Appearance();
+        apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//Estrella.png", new Container()).getTexture());
+        TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        apariencia.setTextureAttributes(texAttr);
+
+
+        float x = 0.5f;
+        float y = 0.2f;
+
+        float posx = 12.34f;
+        float posy = 2f, posz = -4f;
+
+
+        estrella.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+        estrella.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+        estrella.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
+        estrella.setCapability(BranchGroup.ALLOW_DETACH);
+
+
+        raizEstrella.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+        raizEstrella.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+        raizEstrella.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
+        raizEstrella.setCapability(BranchGroup.ALLOW_DETACH);
+
+
+        Transform3D tfEstrella = new Transform3D();
+        tfEstrella.set(new Vector3f(posx, posy, posz));
+        Transform3D rotar = new Transform3D();
+        rotar.rotX(Math.PI / 2);
+        tfEstrella.mul(rotar);
+
+        TransformGroup tgEstrella;
+        tgEstrella = new TransformGroup(tfEstrella);
+        tgEstrella.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+
+        estrella.addChild(tgEstrella);
+
+
+
+        tgEstrella.addChild(new Cylinder(x, y, Cylinder.GENERATE_TEXTURE_COORDS, apariencia));
+
+        
+        objRoot.addChild(raizEstrella);
+    }
+    
     //---MIOFIN
 }
