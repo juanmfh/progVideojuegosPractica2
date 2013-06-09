@@ -5,41 +5,41 @@
 package figuras;
 
 import javax.media.j3d.BranchGroup;
-import javax.media.j3d.Transform3D;
-import javax.media.j3d.TransformGroup;
-import javax.vecmath.AxisAngle4f;
 import javax.vecmath.Vector3f;
 
 /**
  *
- * @author JuanM
+ * @author olivo
  */
 public class Moneda {
     
-    public BranchGroup bgmoneda;
-    public Vector3f posiciones;
-    public TransformGroup rotador;
+    private BranchGroup bgmoneda;
+    private Vector3f posicion;
     
-    public Moneda(float posx,float posy, float posz){ 
-        
-        Transform3D posicionar = new Transform3D();
-        posicionar.set(new Vector3f(posx, posy, posz));
-        Transform3D rotar = new Transform3D();
-        rotar.rotX(Math.PI / 2);
-        posicionar.mul(rotar);
-        rotador = new TransformGroup(posicionar);
-        rotador.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        rotador.addChild(bgmoneda);
-    }
     
-    public void mostrar(){
-        Transform3D rotar = new Transform3D();
-        rotar.rotY(Math.PI/15d);
-        Transform3D principal = new Transform3D();
-        rotador.getTransform(principal);
-        principal.mul(rotar);
-        rotador.setTransform(principal);
+    
+    public Moneda(BranchGroup bg, Vector3f v){
+        bgmoneda = bg;
+        posicion = v;
         
     }
+
+    public BranchGroup getBgmoneda() {
+        return bgmoneda;
+    }
+
+    public void setBgmoneda(BranchGroup bgmoneda) {
+        this.bgmoneda = bgmoneda;
+    }
+
+    public Vector3f getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(Vector3f posicion) {
+        this.posicion = posicion;
+    }
+    
+    
     
 }
