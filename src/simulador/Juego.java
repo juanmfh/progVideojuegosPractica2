@@ -9,15 +9,8 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.bulletphysics.dynamics.*;
 import com.bulletphysics.collision.broadphase.AxisSweep3;
 import com.bulletphysics.collision.dispatch.*;
-import com.bulletphysics.collision.shapes.SphereShape;
 import com.bulletphysics.dynamics.constraintsolver.SequentialImpulseConstraintSolver;
-import com.bulletphysics.linearmath.DefaultMotionState;
-import com.bulletphysics.linearmath.Transform;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
-import com.sun.j3d.utils.geometry.ColorCube;
-import com.sun.j3d.utils.geometry.Sphere;
-import com.sun.j3d.utils.image.TextureLoader;
-import figuras.Esfera;
 import figuras.FiguraBase;
 import figuras.Personaje;
 
