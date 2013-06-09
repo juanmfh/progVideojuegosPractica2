@@ -279,7 +279,7 @@ public class Mundo {
         Transform3D posicionar9 = new Transform3D();
         posicionar9.set(new Vector3f(posx, posy, posz));
         Transform3D girar9 = new Transform3D();
-        girar9.rotX(Math.PI/2);
+        girar9.rotX(Math.PI / 2);
         posicionar9.mul(girar9);
         TransformGroup posicionarTG9 = new TransformGroup(posicionar9);
         posicionarTG9.addChild(moneda);
@@ -299,10 +299,28 @@ public class Mundo {
         //---MIOINICIO
 
         //Array donde cada valor es la posición de un árbol
-        Vector3f[] v = new Vector3f[3];
+        Vector3f[] v = new Vector3f[16];
         v[0] = new Vector3f(2f, -2f, 0f);
         v[1] = new Vector3f(4.5f, -2f, 0f);
         v[2] = new Vector3f(4.5f, -2f, -2f);
+
+        v[3] = new Vector3f(0f, -2f, -3f);
+        v[4] = new Vector3f(-2f, -2f, -3f);
+        v[5] = new Vector3f(4.5f, -2f, -7f);
+        v[6] = new Vector3f(7f, -2f, -10f);
+
+        v[7] = new Vector3f(-7f, -2f, -10f);
+        v[8] = new Vector3f(-5f, -2f, -12f);
+        v[9] = new Vector3f(-5f, -2f, 13f);
+
+        v[10] = new Vector3f(-4f, -2f, 9f);
+        v[11] = new Vector3f(0f, -2f, 12f);
+        v[12] = new Vector3f(5f, -2f, 14f);
+
+        v[13] = new Vector3f(9f, -2f, 15f);
+        v[14] = new Vector3f(18f, -2f, 15f);
+        v[15] = new Vector3f(18f, -2f, 6f);
+
 
         colocarArboles(v, objRoot);
 
@@ -556,8 +574,8 @@ public class Mundo {
         Transform3D tfMoneda = new Transform3D();
         tfMoneda.set(new Vector3f(posx, posy, posz));
         Transform3D rotar = new Transform3D();
-         rotar.rotX(Math.PI / 2);
-         tfMoneda.mul(rotar);
+        rotar.rotX(Math.PI / 2);
+        tfMoneda.mul(rotar);
 
         TransformGroup tgMoneda;
         tgMoneda = new TransformGroup(tfMoneda);
@@ -575,7 +593,7 @@ public class Mundo {
         /////////
 
         //creamos el objeto moneda que guarda los datos
-        return new Moneda(bgMoneda, new Vector3f(posx, posy, posz),tgMoneda);
+        return new Moneda(bgMoneda, new Vector3f(posx, posy, posz), tgMoneda);
 
 
     }
