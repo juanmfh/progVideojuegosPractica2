@@ -18,6 +18,7 @@ public class Moneda {
     private BranchGroup bgmoneda;
     private Vector3f posicion;
     private TransformGroup rotador;
+    private boolean cogida = false;
     
     
     public Moneda(BranchGroup bg, Vector3f v,TransformGroup rotador){
@@ -50,6 +51,14 @@ public class Moneda {
 
     public void setPosicion(Vector3f posicion) {
         this.posicion = posicion;
+    }
+
+    public boolean isCogida() {
+        return cogida;
+    }
+
+    public void setCogida(boolean cogida) {
+        this.cogida = cogida;
     }
     
     

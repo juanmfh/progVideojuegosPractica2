@@ -251,10 +251,10 @@ public class Juego extends JFrame implements Runnable {
 
             if (difX < 0.25f && difY < 0.25f && difZ < 0.25f) {
                 Mundo.bgRaizMonedas.removeChild(m.getBgmoneda());
-
-                //escena.addChild(textShape);
-                //letras.addChild(textShape);
-                //escena.addChild(letras);
+                if(!m.isCogida()){
+                    consigueMoneda();
+                    m.setCogida(true);
+                }
             }
 
         }
@@ -426,7 +426,7 @@ public class Juego extends JFrame implements Runnable {
         monedas.setText(numMonedas + "");
     }
 
-    public void ConsigueMoneda() {
+    public void consigueMoneda() {
         monedas.setText((Integer.parseInt(monedas.getText()) + 1) + "");
     }
 
