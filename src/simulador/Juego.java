@@ -11,6 +11,8 @@ import com.bulletphysics.collision.broadphase.AxisSweep3;
 import com.bulletphysics.collision.dispatch.*;
 import com.bulletphysics.dynamics.constraintsolver.SequentialImpulseConstraintSolver;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
+import com.sun.j3d.utils.geometry.Text2D;
+import com.sun.j3d.utils.image.TextureLoader;
 import figuras.FiguraBase;
 import figuras.Personaje;
 
@@ -31,6 +33,7 @@ public class Juego extends JFrame implements Runnable {
     Figura personaje;
     Shape3D textShape;
     BranchGroup escena;
+    BranchGroup letras;
 
     public Juego() {
         CollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
@@ -47,11 +50,13 @@ public class Juego extends JFrame implements Runnable {
         zonaDibujo.setPreferredSize(new Dimension(1280, 720));
         GranPanel.add(zonaDibujo, BorderLayout.CENTER);
         universo = new SimpleUniverse(zonaDibujo);
+        
         escena = crearEscena();
         escena.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
         escena.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
         escena.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
-
+        escena.setCapability(BranchGroup.ALLOW_DETACH);
+        
         // Camara libre
         OrbitBehavior B = new OrbitBehavior(zonaDibujo);
         B.setSchedulingBounds(new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0));
@@ -76,9 +81,16 @@ public class Juego extends JFrame implements Runnable {
         objRoot.addChild(LuzDireccional);
         mostrar.setSchedulingBounds(limites);
         LuzDireccional.setInfluencingBounds(limitesLuz);
-        Background bg = new Background();
+        /*Background bg = new Background();
         bg.setApplicationBounds(limites);
         bg.setColor(new Color3f(135f / 256, 206f / 256f, 250f / 256f));
+        objRoot.addChild(bg);*/
+        TextureLoader bgTexture = new TextureLoader(rutaCarpetaProyecto + "fondoFull.jpg", this);
+        Background bg = new Background(bgTexture.getImage());
+        BoundingSphere limitesFondo = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
+        bg.setApplicationBounds(limitesFondo);
+        BranchGroup backGeoBranch = new BranchGroup();
+        bg.setGeometry(backGeoBranch);
         objRoot.addChild(bg);
         objRoot.addChild(mostrar);
 
@@ -92,13 +104,25 @@ public class Juego extends JFrame implements Runnable {
 
         // crear mundo
         objRoot.addChild(Mundo.crearMundo());
-
+        
 
         //Letras
         Font3D font3d = new Font3D(new Font("Helvetica", Font.PLAIN, 1), 1, new FontExtrusion());
         Text3D textGeom = new Text3D(font3d, "You Win", new Point3f(11f, 2.5f, -4.5f));
         textShape = new Shape3D(textGeom);
-
+        textShape.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+        textShape.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+        textShape.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
+        textShape.setCapability(BranchGroup.ALLOW_DETACH);
+        objRoot.addChild(textShape);
+        
+        /*Text2D text2d = new Text2D("2D text in Java 3D" , new Color3f(0.9f, 1.0f, 1.0f), "Helvetica", 72, Font.ITALIC);
+        PolygonAttributes polyAttrib = new PolygonAttributes();
+        polyAttrib.setCullFace(PolygonAttributes.CULL_NONE);
+        polyAttrib.setBackFaceNormalFlip(true);
+        text2d.getAppearance().setPolygonAttributes(polyAttrib);
+        
+        objRoot.addChild(text2d);*/
 
         //Hola Mundo con una esfera visual-fisica en 0, -4, 0.
         //Es sencillo crearlos est‡ticos como se muestra a continuacion. Sii desea que caigan, y se sometan a fuerzas, mejor crear una figura.
@@ -132,6 +156,9 @@ public class Juego extends JFrame implements Runnable {
         //Para que esa figura se mueva (ej. que caiga) hay que/invocar conitnuamente mundoFisico.stepSimulation(dt) y actualizar su objeto java3d a partir de su rigidBody.
         //Por esto, para crear una figura dinamica se recomienda usar una Figura, simulada con el codigo del run(), mostrar() y actualizar()
 
+        
+        
+        
         return objRoot;
     }
 
@@ -178,8 +205,10 @@ public class Juego extends JFrame implements Runnable {
                 && personaje.posiciones[1] - 2f < 0.25f && personaje.posiciones[1] - 2f > -0.25f
                 && personaje.posiciones[2] + 3.57f < 0.25f && personaje.posiciones[1] + 3.57f > -0.25f) {
             System.out.println("The win");
-            escena.addChild(textShape);
-
+            
+            //escena.addChild(textShape);
+            //letras.addChild(textShape);
+            //escena.addChild(letras);
         }
         if (estadoJuego == 0) {
             //perseguidor.asignarObjetivo(personaje, 15f);
@@ -291,7 +320,7 @@ public class Juego extends JFrame implements Runnable {
                 actualizar(dt);
 
             } catch (Exception e) {
-                System.out.println("Error durante actualizar. Estado del juego " + estadoJuego);
+                System.out.println("Error durante actualizar. Estado del juego " + estadoJuego + e.getMessage());
             }
             try {
                 Thread.sleep(tiempoDeEspera);
