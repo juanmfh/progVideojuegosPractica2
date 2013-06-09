@@ -50,46 +50,46 @@ public class Juego extends JFrame implements Runnable {
         Container GranPanel = getContentPane();
         //MIOINICIO-----
         JPanel Controles = new JPanel();
-        
+
         //MIOFIN----
-        
+
         Canvas3D zonaDibujo = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
         zonaDibujo.setPreferredSize(new Dimension(1280, 720));
         GranPanel.add(zonaDibujo, BorderLayout.CENTER);
-        
+
         //MIOINICIO----
-        
+
         GranPanel.add(Controles, BorderLayout.NORTH);
-        
+
         JLabel etiqueta = new JLabel("Monedas: ");
         monedas = new JLabel("0");
         JLabel iconoMonedas = new JLabel();
         iconoMonedas.setIcon(new javax.swing.ImageIcon(rutaCarpetaProyecto + "NewSuperMarioBros-Coin.png"));
         etiqueta.setFont(new Font("Arial", Font.BOLD, 24));
         monedas.setFont(new Font("Arial", Font.BOLD, 24));
-       /* Button unBoton = new Button("Iniciar");
-        unBoton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //remover(escena);
-            }
-        });
-        Controles.add(unBoton);*/
-        Color c = new Color(0,153,255,255);
+        /* Button unBoton = new Button("Iniciar");
+         unBoton.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+         //remover(escena);
+         }
+         });
+         Controles.add(unBoton);*/
+        Color c = new Color(0, 153, 255, 255);
         Controles.setBackground(c);
         Controles.add(etiqueta);
         Controles.add(monedas);
         Controles.add(iconoMonedas);
-       
+
         pack();
         //MIOFIN----
         universo = new SimpleUniverse(zonaDibujo);
-        
+
         escena = crearEscena();
         escena.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
         escena.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
         escena.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
         escena.setCapability(BranchGroup.ALLOW_DETACH);
-        
+
         // Camara libre
         OrbitBehavior B = new OrbitBehavior(zonaDibujo);
         B.setSchedulingBounds(new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0));
@@ -115,9 +115,9 @@ public class Juego extends JFrame implements Runnable {
         mostrar.setSchedulingBounds(limites);
         LuzDireccional.setInfluencingBounds(limitesLuz);
         /*Background bg = new Background();
-        bg.setApplicationBounds(limites);
-        bg.setColor(new Color3f(135f / 256, 206f / 256f, 250f / 256f));
-        objRoot.addChild(bg);*/
+         bg.setApplicationBounds(limites);
+         bg.setColor(new Color3f(135f / 256, 206f / 256f, 250f / 256f));
+         objRoot.addChild(bg);*/
         TextureLoader bgTexture = new TextureLoader(rutaCarpetaProyecto + "fondoFull.jpg", this);
         Background bg = new Background(bgTexture.getImage());
         BoundingSphere limitesFondo = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
@@ -137,7 +137,7 @@ public class Juego extends JFrame implements Runnable {
 
         // crear mundo
         objRoot.addChild(Mundo.crearMundo());
-        
+
 
         //Letras
         Font3D font3d = new Font3D(new Font("Helvetica", Font.PLAIN, 1), 1, new FontExtrusion());
@@ -148,14 +148,14 @@ public class Juego extends JFrame implements Runnable {
         textShape.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
         textShape.setCapability(BranchGroup.ALLOW_DETACH);
         objRoot.addChild(textShape);
-        
+
         /*Text2D text2d = new Text2D("2D text in Java 3D" , new Color3f(0.9f, 1.0f, 1.0f), "Helvetica", 72, Font.ITALIC);
-        PolygonAttributes polyAttrib = new PolygonAttributes();
-        polyAttrib.setCullFace(PolygonAttributes.CULL_NONE);
-        polyAttrib.setBackFaceNormalFlip(true);
-        text2d.getAppearance().setPolygonAttributes(polyAttrib);
+         PolygonAttributes polyAttrib = new PolygonAttributes();
+         polyAttrib.setCullFace(PolygonAttributes.CULL_NONE);
+         polyAttrib.setBackFaceNormalFlip(true);
+         text2d.getAppearance().setPolygonAttributes(polyAttrib);
         
-        objRoot.addChild(text2d);*/
+         objRoot.addChild(text2d);*/
 
         //Hola Mundo con una esfera visual-fisica en 0, -4, 0.
         //Es sencillo crearlos est‡ticos como se muestra a continuacion. Sii desea que caigan, y se sometan a fuerzas, mejor crear una figura.
@@ -189,9 +189,9 @@ public class Juego extends JFrame implements Runnable {
         //Para que esa figura se mueva (ej. que caiga) hay que/invocar conitnuamente mundoFisico.stepSimulation(dt) y actualizar su objeto java3d a partir de su rigidBody.
         //Por esto, para crear una figura dinamica se recomienda usar una Figura, simulada con el codigo del run(), mostrar() y actualizar()
 
-        
-        
-        
+
+
+
         return objRoot;
     }
 
@@ -238,11 +238,27 @@ public class Juego extends JFrame implements Runnable {
                 && personaje.posiciones[1] - 2f < 0.25f && personaje.posiciones[1] - 2f > -0.25f
                 && personaje.posiciones[2] + 3.57f < 0.25f && personaje.posiciones[1] + 3.57f > -0.25f) {
             System.out.println("The win");
-            
+
             //escena.addChild(textShape);
             //letras.addChild(textShape);
             //escena.addChild(letras);
         }
+
+        for (Moneda m : Mundo.listaMonedas) {
+            float difX = Math.abs(personaje.posiciones[0] - m.getPosicion().x);
+            float difY = Math.abs(personaje.posiciones[1] - m.getPosicion().y);
+            float difZ = Math.abs(personaje.posiciones[2] - m.getPosicion().z);
+
+            if (difX < 0.25f && difY < 0.25f && difZ < 0.25f) {
+                Mundo.bgRaizMonedas.removeChild(m.getBgmoneda());
+
+                //escena.addChild(textShape);
+                //letras.addChild(textShape);
+                //escena.addChild(letras);
+            }
+
+        }
+
         if (estadoJuego == 0) {
             //perseguidor.asignarObjetivo(personaje, 15f);
             if (tiempoJuego > 1000) {
@@ -340,7 +356,7 @@ public class Juego extends JFrame implements Runnable {
         } catch (Exception e) {
         }
         actualizarCamara();
-        for(Moneda m: Mundo.listaMonedas){
+        for (Moneda m : Mundo.listaMonedas) {
             m.mostrar();
         }
         this.mostrandoFisicas = false;
@@ -383,8 +399,8 @@ public class Juego extends JFrame implements Runnable {
         /*TransformGroup transformGroupCamara = universo.getViewingPlatform().getViewPlatformTransform();
          Transform3D transformCamara = new Transform3D();
          transformGroupCamara.getTransform(transformCamara);*/
-        
-        
+
+
         Point3d posicionCamara;
         Point3d objetivoCamara;
         if (personaje.posiciones[0] > 9) {
@@ -405,16 +421,16 @@ public class Juego extends JFrame implements Runnable {
             System.out.println(e.toString());
         }
     }
-    
-    public void setMonedas(int numMonedas){
-        monedas.setText(numMonedas+"");
+
+    public void setMonedas(int numMonedas) {
+        monedas.setText(numMonedas + "");
     }
-    
-    public void ConsigueMoneda(){
-        monedas.setText((Integer.parseInt(monedas.getText())+1) +"");
+
+    public void ConsigueMoneda() {
+        monedas.setText((Integer.parseInt(monedas.getText()) + 1) + "");
     }
-    
-    public int getMonedas(){
+
+    public int getMonedas() {
         return Integer.parseInt(monedas.getText());
     }
 
