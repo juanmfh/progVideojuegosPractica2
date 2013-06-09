@@ -46,9 +46,32 @@ public class Juego extends JFrame implements Runnable {
         mundoFisico.setGravity(new Vector3f(0, -10, 0));
 
         Container GranPanel = getContentPane();
+        //MIOINICIO-----
+        JPanel Controles = new JPanel(new GridLayout(2, 4));
+        
+        //MIOFIN----
+        
         Canvas3D zonaDibujo = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
         zonaDibujo.setPreferredSize(new Dimension(1280, 720));
         GranPanel.add(zonaDibujo, BorderLayout.CENTER);
+        
+        //MIOINICIO----
+        
+        GranPanel.add(Controles, BorderLayout.NORTH);
+        
+        JLabel etiqueta = new JLabel("Monedas: 0");
+       /* Button unBoton = new Button("Iniciar");
+        unBoton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //remover(escena);
+            }
+        });
+        Controles.add(unBoton);*/
+        Color c = new Color(0,153,255,255);
+        Controles.setBackground(c);
+        Controles.add(etiqueta);
+        pack();
+        //MIOFIN----
         universo = new SimpleUniverse(zonaDibujo);
         
         escena = crearEscena();
