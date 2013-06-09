@@ -12,11 +12,14 @@ import com.sun.j3d.loaders.Scene;
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.Cylinder;
 import com.sun.j3d.utils.geometry.Sphere;
+import com.sun.j3d.utils.image.TextureLoader;
+import java.awt.Container;
 import java.util.ArrayList;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.ColoringAttributes;
+import javax.media.j3d.TextureAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.AxisAngle4f;
@@ -90,6 +93,13 @@ public class Personaje extends Figura {
         BranchGroup objRoot = new BranchGroup();
 
         // Apariencia
+         Appearance aparienciaCara = new Appearance();
+        aparienciaCara.setTexture(new TextureLoader(System.getProperty("user.dir") + "//cara.jpg", new Container()).getTexture());
+        TextureAttributes texAttr = new TextureAttributes();
+        texAttr.setTextureMode(TextureAttributes.MODULATE);
+        aparienciaCara.setTextureAttributes(texAttr);
+        
+        
         ColoringAttributes colorAzul = new ColoringAttributes(0f, 0f, 1f, ColoringAttributes.FASTEST);
         Appearance aparienciaAzul = new Appearance();
         aparienciaAzul.setColoringAttributes(colorAzul);
@@ -105,6 +115,10 @@ public class Personaje extends Figura {
         ColoringAttributes colorBlanco = new ColoringAttributes(1f, 1f, 1f, ColoringAttributes.FASTEST);
         Appearance aparienciaBlanco = new Appearance();
         aparienciaBlanco.setColoringAttributes(colorBlanco);
+        
+        ColoringAttributes colorPiel = new ColoringAttributes(0.99f, 0.94f, 0.63f, ColoringAttributes.FASTEST);
+        Appearance aparienciaPiel = new Appearance();
+        aparienciaPiel.setColoringAttributes(colorPiel);
 
         //Pierna derecha
         //************************************************
@@ -199,14 +213,34 @@ public class Personaje extends Figura {
         Transform3D cabezaDesplazada = new Transform3D();
         cabezaDesplazada.set(new Vector3f(0.0f, 0.26f, 0.0f));
         TransformGroup cabezaDesplazadaTG = new TransformGroup(cabezaDesplazada);
-        cabezaDesplazadaTG.addChild(new Sphere(0.1f, aparienciaBlanco));
+        cabezaDesplazadaTG.addChild(new Sphere(0.1f, Sphere.GENERATE_TEXTURE_COORDS, aparienciaCara));
+        
+        // Nariz
+        Transform3D narizDesplazada = new Transform3D();
+        narizDesplazada.set(new Vector3f(0.0f, 0.24f, 0.08f));
+        TransformGroup narizDesplazadaTG = new TransformGroup(narizDesplazada);
+        narizDesplazadaTG.addChild(new Sphere(0.05f, aparienciaPiel));
+        
+        // Gorra
+        Transform3D gorraDesplazada = new Transform3D();
+        gorraDesplazada.set(new Vector3f(0.0f, 0.28f, 0.0f));
+        TransformGroup gorraDesplazadaTG = new TransformGroup(gorraDesplazada);
+        gorraDesplazadaTG.addChild(new Sphere(0.1f, aparienciaRojo));
+        
+        //Bisera
+        Transform3D biseraDesplazada = new Transform3D();
+        biseraDesplazada.set(new Vector3f(0.0f, 0.30f, 0.05f));
+        TransformGroup biseraDesplazadaTG = new TransformGroup(biseraDesplazada);
+        biseraDesplazadaTG.addChild(new Cylinder(0.1f,0.03f, aparienciaRojo));
 
         // Estructura
+        conjuntoTronco.addChild(narizDesplazadaTG);
         conjuntoTronco.addChild(hombrerasDesplazadoTG);
         conjuntoTronco.addChild(troncoDesplazadoTG);
         conjuntoTronco.addChild(caderaDesplazadaTG);
         conjuntoTronco.addChild(cabezaDesplazadaTG);
-
+        conjuntoTronco.addChild(gorraDesplazadaTG);
+        conjuntoTronco.addChild(biseraDesplazadaTG);
         // Brazo derecho
         //**************************************************
         BranchGroup extSupDerecha = new BranchGroup();
