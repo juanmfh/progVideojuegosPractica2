@@ -36,7 +36,8 @@ public class Juego extends JFrame implements Runnable {
     public float tiempoJuego;
     // Pesonajes importantes del juego
     Figura personaje;
-    //Figura perseguidor;
+    Shape3D textShape;
+    BranchGroup escena;
 
     public Juego() {
         CollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
@@ -53,7 +54,10 @@ public class Juego extends JFrame implements Runnable {
         zonaDibujo.setPreferredSize(new Dimension(1280, 720));
         GranPanel.add(zonaDibujo, BorderLayout.CENTER);
         universo = new SimpleUniverse(zonaDibujo);
-        BranchGroup escena = crearEscena();
+        escena = crearEscena();
+        escena.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+        escena.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+        escena.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
 
         // Camara libre
         OrbitBehavior B = new OrbitBehavior(zonaDibujo);
@@ -95,6 +99,13 @@ public class Juego extends JFrame implements Runnable {
 
         // crear mundo
         objRoot.addChild(Mundo.crearMundo());
+
+
+        //Letras
+        Font3D font3d = new Font3D(new Font("Helvetica", Font.PLAIN, 1), 1, new FontExtrusion());
+        Text3D textGeom = new Text3D(font3d, "You Win", new Point3f(11f, 2.5f, -4.5f));
+        textShape = new Shape3D(textGeom);
+
 
         //Hola Mundo con una esfera visual-fisica en 0, -4, 0.
         //Es sencillo crearlos est‡ticos como se muestra a continuacion. Sii desea que caigan, y se sometan a fuerzas, mejor crear una figura.
@@ -170,10 +181,12 @@ public class Juego extends JFrame implements Runnable {
 
     void actualizar(float dt) {
         //ACTUALIZAR EL ESTADO DEL JUEGO
-        if(personaje.posiciones[0]-12.34f <0.25f && personaje.posiciones[0]-12.34f >-0.25f &&
-           personaje.posiciones[1]-2f<0.25f  && personaje.posiciones[1]-2f>-0.25f  &&
-           personaje.posiciones[2]+3.57f<0.25f  && personaje.posiciones[1]+3.57f>-0.25f ){
+        if (personaje.posiciones[0] - 12.34f < 0.25f && personaje.posiciones[0] - 12.34f > -0.25f
+                && personaje.posiciones[1] - 2f < 0.25f && personaje.posiciones[1] - 2f > -0.25f
+                && personaje.posiciones[2] + 3.57f < 0.25f && personaje.posiciones[1] + 3.57f > -0.25f) {
             System.out.println("The win");
+            escena.addChild(textShape);
+
         }
         if (estadoJuego == 0) {
             //perseguidor.asignarObjetivo(personaje, 15f);
@@ -196,7 +209,7 @@ public class Juego extends JFrame implements Runnable {
         if (personaje != null) {
             float fuerzaElevacion = 0, fuerzaLateral = 0;
             //--MIO
-            
+
             if (personaje.soltadoTeclaIzquierda) {
                 personaje.soltadoTeclaIzquierda = false;
                 fuerzaLateral = -personaje.masa * 10f * personaje.contadorGiro; //aplicamos fuerza opuesta
@@ -273,7 +286,7 @@ public class Juego extends JFrame implements Runnable {
         }
         actualizarCamara();
         this.mostrandoFisicas = false;
-       
+
     }
 
     public void run() {
@@ -314,10 +327,10 @@ public class Juego extends JFrame implements Runnable {
          transformGroupCamara.getTransform(transformCamara);*/
         Point3d posicionCamara;
         Point3d objetivoCamara;
-        if (personaje.posiciones[0]>9) {
+        if (personaje.posiciones[0] > 9) {
             posicionCamara = new Point3d(personaje.posiciones[0] + 4, personaje.posiciones[1] + 3, personaje.posiciones[2] + 4);
             objetivoCamara = new Point3d(personaje.posiciones[0] - 1, personaje.posiciones[1] - 1, personaje.posiciones[2] - 1);
-            
+
         } else {
             posicionCamara = new Point3d(personaje.posiciones[0] - 4, personaje.posiciones[1] + 3, personaje.posiciones[2] - 4);
             objetivoCamara = new Point3d(personaje.posiciones[0] + 1, personaje.posiciones[1] + 1, personaje.posiciones[2] + 1);
