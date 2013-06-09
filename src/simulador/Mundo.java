@@ -304,8 +304,8 @@ public class Mundo {
         v[1] = new Vector3f(4.5f, -2f, 0f);
         v[2] = new Vector3f(4.5f, -2f, -2f);
 
-        v[3] = new Vector3f(0f, -2f, -3f);
-        v[4] = new Vector3f(-2f, -2f, -3f);
+        v[3] = new Vector3f(1f, -2f, -6f);
+        v[4] = new Vector3f(-3f, -2f, -6f);
         v[5] = new Vector3f(4.5f, -2f, -7f);
         v[6] = new Vector3f(7f, -2f, -10f);
 
@@ -331,12 +331,17 @@ public class Mundo {
         v2[3] = new Vector3f(-4.5f, -1f, -1f);
         colocarCajas(v2, objRoot);
 
-        Vector3f[] v3 = new Vector3f[5];
+        Vector3f[] v3 = new Vector3f[10];
         v3[0] = new Vector3f(2f, -2.5f, -2f);
         v3[1] = new Vector3f(-3f, -2.5f, -2f);
         v3[2] = new Vector3f(2f, -2.5f, -2.5f);
         v3[3] = new Vector3f(0f, -1f, 2.7f);
-        v3[4] = new Vector3f(1f, -2.5f, 0f);
+        v3[4] = new Vector3f(1f, -2.5f, -1f);
+        v3[5] = new Vector3f(3f, -0.3f, 3f);
+        v3[6] = new Vector3f(5f, -0.3f, 8f);
+        v3[7] = new Vector3f(1f, -2.5f, -2f);
+        v3[8] = new Vector3f(9f, 0.5f, 10f);
+        v3[9] = new Vector3f(12f, 0.8f, 8f);
         colocarMonedas(v3, objRoot);
         //generarMonedas(v3[4], objRoot);
 
