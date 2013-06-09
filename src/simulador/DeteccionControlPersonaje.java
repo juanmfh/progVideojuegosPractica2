@@ -35,6 +35,10 @@ public class DeteccionControlPersonaje extends javax.media.j3d.Behavior {
                 if (ek.getID() == KeyEvent.KEY_PRESSED) {
                     if (ek.getKeyChar() == 'w') {
                         personaje.adelante= true;
+                                /////MIOOOOOO
+        
+            //Mundo.bgRaizMonedas.removeChild(Mundo.listaMonedas[0].getBgmoneda());
+            /////MIOOOOO
                     }
                     else if (ek.getKeyChar() == 'a') personaje.izquierda=true;
                     else if (ek.getKeyChar() == 'd') personaje.derecha=true;

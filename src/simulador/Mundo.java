@@ -16,6 +16,7 @@ import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.geometry.Cylinder;
 import com.sun.j3d.utils.geometry.Sphere;
 import com.sun.j3d.utils.image.TextureLoader;
+import figuras.Moneda;
 import java.awt.Container;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
@@ -32,12 +33,10 @@ import javax.vecmath.Vector3f;
  */
 public class Mundo {
 
-    
-     //MIOINICIO-----------
-    
-    
-        public static TransformGroup tgMoneda;
-    
+    //MIOINICIO-----------
+    public static BranchGroup bgRaizMonedas = new BranchGroup();
+    public static Moneda[] listaMonedas;
+
     //MIOFIN-----------
     public static BranchGroup crearMundo() {
         BranchGroup objRoot = new BranchGroup();
@@ -318,6 +317,9 @@ public class Mundo {
         v3[3] = new Vector3f(0f, -1f, 2.7f);
         v3[4] = new Vector3f(1f, -2.5f, 0f);
         colocarMonedas(v3, objRoot);
+        //generarMonedas(v3[4], objRoot);
+
+
         //-----MIOFIN
 
 
@@ -475,27 +477,26 @@ public class Mundo {
 
     }
     //---MIOFIN
-    
-    
-    
-    
+
     //----MIOINICIO
     public static void colocarMonedas(Vector3f[] posiciones, BranchGroup objRoot) {
 
+        listaMonedas = new Moneda[posiciones.length];
         for (int i = 0; i < posiciones.length; i++) {
 
-            generarMonedas(posiciones[i], objRoot);
+            listaMonedas[i] = generarMonedas(posiciones[i], objRoot);
 
         }
+        //añadimos la raiz de monedas al objRoot
+        objRoot.addChild(bgRaizMonedas);
 
     }
 
-    public static void generarMonedas(Vector3f posicion, BranchGroup objRoot) {
+    public static Moneda generarMonedas(Vector3f posicion, BranchGroup objRoot) {
 
 
         Appearance apariencia = new Appearance();
-        apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//retro_coin.png", new 
-Container()).getTexture());
+        apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//retro_coin.png", new Container()).getTexture());
         TextureAttributes texAttr = new TextureAttributes();
         texAttr.setTextureMode(TextureAttributes.MODULATE);
         apariencia.setTextureAttributes(texAttr);
@@ -507,54 +508,73 @@ Container()).getTexture());
         float posx = posicion.x;
         float posy = posicion.y, posz = posicion.z;
         /*Cylinder tronco = new Cylinder(x, y, Cylinder.GENERATE_TEXTURE_COORDS, apariencia);
-        Transform3D posicionar = new Transform3D();
-        posicionar.set(new Vector3f(posx, posy, posz));
-        Transform3D rotar = new Transform3D();
-        rotar.rotX(Math.PI / 2);
-        posicionar.mul(rotar);
-        TransformGroup posicionarTG = new TransformGroup(posicionar);
-        posicionarTG.addChild(tronco);
+         Transform3D posicionar = new Transform3D();
+         posicionar.set(new Vector3f(posx, posy, posz));
+         Transform3D rotar = new Transform3D();
+         rotar.rotX(Math.PI / 2);
+         posicionar.mul(rotar);
+         TransformGroup posicionarTG = new TransformGroup(posicionar);
+         posicionarTG.addChild(tronco);
 
-        CylinderShape baseFisica = new CylinderShape(new Vector3f(x, y / 2f, 0));
-        CollisionObject ramaFisica = new CollisionObject();
-        ramaFisica.setCollisionShape(baseFisica);
-        Transform groundTransform = new Transform();
-        groundTransform.setIdentity();
-        groundTransform.origin.set(new Vector3f(posx, posy, posz));
-        Vector3f inerciaLocal = new Vector3f(0, 0, 0);
-        DefaultMotionState EstadoDeMovimiento = new DefaultMotionState(groundTransform);
-        RigidBodyConstructionInfo InformacionCuerpoR = new RigidBodyConstructionInfo(0f,
-                EstadoDeMovimiento, baseFisica, inerciaLocal);
-        RigidBody cuerpoRigido = new RigidBody(InformacionCuerpoR);
-        cuerpoRigido.setActivationState(RigidBody.DISABLE_DEACTIVATION);
-        Juego.mundoFisico.addRigidBody(cuerpoRigido); // add the body to the dynamics world
+         CylinderShape baseFisica = new CylinderShape(new Vector3f(x, y / 2f, 0));
+         CollisionObject ramaFisica = new CollisionObject();
+         ramaFisica.setCollisionShape(baseFisica);
+         Transform groundTransform = new Transform();
+         groundTransform.setIdentity();
+         groundTransform.origin.set(new Vector3f(posx, posy, posz));
+         Vector3f inerciaLocal = new Vector3f(0, 0, 0);
+         DefaultMotionState EstadoDeMovimiento = new DefaultMotionState(groundTransform);
+         RigidBodyConstructionInfo InformacionCuerpoR = new RigidBodyConstructionInfo(0f,
+         EstadoDeMovimiento, baseFisica, inerciaLocal);
+         RigidBody cuerpoRigido = new RigidBody(InformacionCuerpoR);
+         cuerpoRigido.setActivationState(RigidBody.DISABLE_DEACTIVATION);
+         Juego.mundoFisico.addRigidBody(cuerpoRigido); // add the body to the dynamics world
 
 
 
-        objRoot.addChild(posicionarTG);*/
-        
-        
+         objRoot.addChild(posicionarTG);*/
+
+
         ////////////NUEVOINICIO////////////////////////
-        
+
         BranchGroup bgMoneda = new BranchGroup();
         bgMoneda.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
         bgMoneda.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
         bgMoneda.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
         bgMoneda.setCapability(BranchGroup.ALLOW_DETACH);
-        
+
+
+        bgRaizMonedas.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+        bgRaizMonedas.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+        bgRaizMonedas.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
+        bgRaizMonedas.setCapability(BranchGroup.ALLOW_DETACH);
+
+
         Transform3D tfMoneda = new Transform3D();
         tfMoneda.set(new Vector3f(posx, posy, posz));
+        Transform3D rotar = new Transform3D();
+         rotar.rotX(Math.PI / 2);
+         tfMoneda.mul(rotar);
+
+        TransformGroup tgMoneda;
         tgMoneda = new TransformGroup(tfMoneda);
         tgMoneda.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 
         bgMoneda.addChild(tgMoneda);
-        
-        
-        
+
+
+
         tgMoneda.addChild(new Cylinder(x, y, Cylinder.GENERATE_TEXTURE_COORDS, apariencia));
-        objRoot.addChild(bgMoneda);
-        
-        
+
+        /////////NUEVO
+        bgRaizMonedas.addChild(bgMoneda);
+
+        /////////
+
+        //creamos el objeto moneda que guarda los datos
+        return new Moneda(bgMoneda, new Vector3f(posx, posy, posz));
+
+
     }
     //---MIOFIN
 }

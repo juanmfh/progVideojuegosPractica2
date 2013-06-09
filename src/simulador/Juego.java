@@ -332,6 +332,7 @@ public class Juego extends JFrame implements Runnable {
         actualizarCamara();
         this.mostrandoFisicas = false;
 
+
     }
 
     public void run() {
