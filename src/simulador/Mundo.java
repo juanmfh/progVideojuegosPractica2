@@ -310,13 +310,13 @@ public class Mundo {
         v3[0] = new Vector3f(2f, -2.5f, -2f);
         v3[1] = new Vector3f(-3f, -2.5f, -2f);
         v3[2] = new Vector3f(2f, -2.5f, -2.5f);
-        v3[3] = new Vector3f(0f, -1f, 2.7f);
+        v3[3] = new Vector3f(0f, -0.5f, 2.7f);
         v3[4] = new Vector3f(1f, -2.5f, -1f);
-        v3[5] = new Vector3f(3f, -0.3f, 3f);
-        v3[6] = new Vector3f(5f, -0.3f, 8f);
+        v3[5] = new Vector3f(3f, -0.1f, 3f);
+        v3[6] = new Vector3f(5f, -0.1f, 8f);
         v3[7] = new Vector3f(1f, -2.5f, -2f);
-        v3[8] = new Vector3f(9f, 0.5f, 10f);
-        v3[9] = new Vector3f(12f, 0.8f, 8f);
+        v3[8] = new Vector3f(9f, 0.6f, 10f);
+        v3[9] = new Vector3f(12f, 0.9f, 8f);
         colocarMonedas(v3, objRoot);
         //generarMonedas(v3[4], objRoot);
 
