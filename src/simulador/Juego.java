@@ -14,6 +14,7 @@ import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.geometry.Text2D;
 import com.sun.j3d.utils.image.TextureLoader;
 import figuras.FiguraBase;
+import figuras.Moneda;
 import figuras.Personaje;
 
 public class Juego extends JFrame implements Runnable {
@@ -339,6 +340,9 @@ public class Juego extends JFrame implements Runnable {
         } catch (Exception e) {
         }
         actualizarCamara();
+        for(Moneda m: Mundo.listaMonedas){
+            m.mostrar();
+        }
         this.mostrandoFisicas = false;
 
     }
@@ -379,6 +383,8 @@ public class Juego extends JFrame implements Runnable {
         /*TransformGroup transformGroupCamara = universo.getViewingPlatform().getViewPlatformTransform();
          Transform3D transformCamara = new Transform3D();
          transformGroupCamara.getTransform(transformCamara);*/
+        
+        
         Point3d posicionCamara;
         Point3d objetivoCamara;
         if (personaje.posiciones[0] > 9) {

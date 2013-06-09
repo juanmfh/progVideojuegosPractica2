@@ -5,6 +5,8 @@
 package figuras;
 
 import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
 import javax.vecmath.Vector3f;
 
 /**
@@ -15,12 +17,22 @@ public class Moneda {
     
     private BranchGroup bgmoneda;
     private Vector3f posicion;
+    private TransformGroup rotador;
     
     
-    
-    public Moneda(BranchGroup bg, Vector3f v){
+    public Moneda(BranchGroup bg, Vector3f v,TransformGroup rotador){
         bgmoneda = bg;
         posicion = v;
+        this.rotador = rotador;
+    }
+    
+    public void mostrar(){
+        Transform3D rotar = new Transform3D();
+        rotar.rotZ(Math.PI/15d);
+        Transform3D principal = new Transform3D();
+        rotador.getTransform(principal);
+        principal.mul(rotar);
+        rotador.setTransform(principal);
         
     }
 

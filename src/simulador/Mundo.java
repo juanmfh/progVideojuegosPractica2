@@ -48,7 +48,7 @@ public class Mundo {
         apariencia.setTextureAttributes(texAttr);
 
         Appearance apariencia2 = new Appearance();
-        apariencia2.setTexture(new TextureLoader(System.getProperty("user.dir") + "//moneda.png", new Container()).getTexture());
+        apariencia2.setTexture(new TextureLoader(System.getProperty("user.dir") + "//Estrella.png", new Container()).getTexture());
         TextureAttributes texAttr2 = new TextureAttributes();
         texAttr2.setTextureMode(TextureAttributes.MODULATE);
         apariencia2.setTextureAttributes(texAttr2);
@@ -268,7 +268,7 @@ public class Mundo {
         cuerpoRigido8.setActivationState(RigidBody.DISABLE_DEACTIVATION);
         Juego.mundoFisico.addRigidBody(cuerpoRigido8); // add the body to the dynamics world
 
-        //Moneda
+        //Estrella
         x = 0.5f;
         y = 0.2f;
 
@@ -278,6 +278,9 @@ public class Mundo {
         Cylinder moneda = new Cylinder(x, y, Cylinder.GENERATE_TEXTURE_COORDS, apariencia2);
         Transform3D posicionar9 = new Transform3D();
         posicionar9.set(new Vector3f(posx, posy, posz));
+        Transform3D girar9 = new Transform3D();
+        girar9.rotX(Math.PI/2);
+        posicionar9.mul(girar9);
         TransformGroup posicionarTG9 = new TransformGroup(posicionar9);
         posicionarTG9.addChild(moneda);
 
@@ -572,7 +575,7 @@ public class Mundo {
         /////////
 
         //creamos el objeto moneda que guarda los datos
-        return new Moneda(bgMoneda, new Vector3f(posx, posy, posz));
+        return new Moneda(bgMoneda, new Vector3f(posx, posy, posz),tgMoneda);
 
 
     }
