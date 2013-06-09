@@ -34,6 +34,7 @@ public class Juego extends JFrame implements Runnable {
     Shape3D textShape;
     BranchGroup escena;
     BranchGroup letras;
+    JLabel monedas;
 
     public Juego() {
         CollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
@@ -47,7 +48,7 @@ public class Juego extends JFrame implements Runnable {
 
         Container GranPanel = getContentPane();
         //MIOINICIO-----
-        JPanel Controles = new JPanel(new GridLayout(2, 4));
+        JPanel Controles = new JPanel();
         
         //MIOFIN----
         
@@ -59,7 +60,12 @@ public class Juego extends JFrame implements Runnable {
         
         GranPanel.add(Controles, BorderLayout.NORTH);
         
-        JLabel etiqueta = new JLabel("Monedas: 0");
+        JLabel etiqueta = new JLabel("Monedas: ");
+        monedas = new JLabel("0");
+        JLabel iconoMonedas = new JLabel();
+        iconoMonedas.setIcon(new javax.swing.ImageIcon(rutaCarpetaProyecto + "NewSuperMarioBros-Coin.png"));
+        etiqueta.setFont(new Font("Arial", Font.BOLD, 24));
+        monedas.setFont(new Font("Arial", Font.BOLD, 24));
        /* Button unBoton = new Button("Iniciar");
         unBoton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -70,6 +76,9 @@ public class Juego extends JFrame implements Runnable {
         Color c = new Color(0,153,255,255);
         Controles.setBackground(c);
         Controles.add(etiqueta);
+        Controles.add(monedas);
+        Controles.add(iconoMonedas);
+       
         pack();
         //MIOFIN----
         universo = new SimpleUniverse(zonaDibujo);
@@ -389,6 +398,18 @@ public class Juego extends JFrame implements Runnable {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+    }
+    
+    public void setMonedas(int numMonedas){
+        monedas.setText(numMonedas+"");
+    }
+    
+    public void ConsigueMoneda(){
+        monedas.setText((Integer.parseInt(monedas.getText())+1) +"");
+    }
+    
+    public int getMonedas(){
+        return Integer.parseInt(monedas.getText());
     }
 
     public static void main(String[] args) {
