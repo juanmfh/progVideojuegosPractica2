@@ -11,7 +11,6 @@ import com.bulletphysics.collision.broadphase.AxisSweep3;
 import com.bulletphysics.collision.dispatch.*;
 import com.bulletphysics.dynamics.constraintsolver.SequentialImpulseConstraintSolver;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
-import com.sun.j3d.utils.geometry.Text2D;
 import com.sun.j3d.utils.image.TextureLoader;
 import figuras.FiguraBase;
 import figuras.Moneda;
@@ -70,13 +69,6 @@ public class Juego extends JFrame implements Runnable {
         iconoMonedas.setIcon(new javax.swing.ImageIcon(rutaCarpetaProyecto + "NewSuperMarioBros-Coin.png"));
         etiqueta.setFont(new Font("Arial", Font.BOLD, 24));
         monedas.setFont(new Font("Arial", Font.BOLD, 24));
-        /* Button unBoton = new Button("Iniciar");
-         unBoton.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-         //remover(escena);
-         }
-         });
-         Controles.add(unBoton);*/
         Color c = new Color(0, 153, 255, 255);
         Controles.setBackground(c);
         Controles.add(etiqueta);
@@ -117,10 +109,6 @@ public class Juego extends JFrame implements Runnable {
         objRoot.addChild(LuzDireccional);
         mostrar.setSchedulingBounds(limites);
         LuzDireccional.setInfluencingBounds(limitesLuz);
-        /*Background bg = new Background();
-         bg.setApplicationBounds(limites);
-         bg.setColor(new Color3f(135f / 256, 206f / 256f, 250f / 256f));
-         objRoot.addChild(bg);*/
         TextureLoader bgTexture = new TextureLoader(rutaCarpetaProyecto + "fondoFull.jpg", this);
         Background bg = new Background(bgTexture.getImage());
         BoundingSphere limitesFondo = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 100.0);
@@ -130,70 +118,19 @@ public class Juego extends JFrame implements Runnable {
         objRoot.addChild(bg);
         objRoot.addChild(mostrar);
 
-        //Hola Mundo con un cubo. Puede también añadir aqui objetos Java3D  visto en los tema 2 y 3.
-        /*ColorCube cubo = new ColorCube(0.5f);
-         Transform3D desplazamiento = new Transform3D();
-         desplazamiento.set(new Vector3f(10f, -1.5f, -5));
-         TransformGroup TGcubo = new TransformGroup(desplazamiento);
-         TGcubo.addChild(cubo);
-         objRoot.addChild(TGcubo);*/
-
         // crear mundo
         objRoot.addChild(Mundo.crearMundo());
 
 
         //Letras
         Font3D font3d = new Font3D(new Font("Helvetica", Font.PLAIN, 1), 1, new FontExtrusion());
-        Text3D textGeom = new Text3D(font3d, "You Win", new Point3f(11f, 2.5f, -4.5f));
+        Text3D textGeom = new Text3D(font3d, "META", new Point3f(11f, 2.5f, -4.5f));
         textShape = new Shape3D(textGeom);
         textShape.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
         textShape.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
         textShape.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
         textShape.setCapability(BranchGroup.ALLOW_DETACH);
         objRoot.addChild(textShape);
-
-        /*Text2D text2d = new Text2D("2D text in Java 3D" , new Color3f(0.9f, 1.0f, 1.0f), "Helvetica", 72, Font.ITALIC);
-         PolygonAttributes polyAttrib = new PolygonAttributes();
-         polyAttrib.setCullFace(PolygonAttributes.CULL_NONE);
-         polyAttrib.setBackFaceNormalFlip(true);
-         text2d.getAppearance().setPolygonAttributes(polyAttrib);
-        
-         objRoot.addChild(text2d);*/
-
-        //Hola Mundo con una esfera visual-fisica en 0, -4, 0.
-        //Es sencillo crearlos estáticos como se muestra a continuacion. Sii desea que caigan, y se sometan a fuerzas, mejor crear una figura.
-        /*float radio = 2f;
-         float posY = -4f;
-         Appearance apariencia = new Appearance();
-         apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//texturas//ladrillo.jpg", this).getTexture());
-         TextureAttributes texAttr = new TextureAttributes();
-         texAttr.setTextureMode(TextureAttributes.MODULATE);
-         apariencia.setTextureAttributes(texAttr);
-         Sphere figuraVisual = new Sphere(radio, Sphere.GENERATE_TEXTURE_COORDS, 60, apariencia);
-         Transform3D desplazamiento2 = new Transform3D();
-         desplazamiento2.set(new Vector3f(0f, posY, 0));
-         TransformGroup TGesferaFija = new TransformGroup(desplazamiento2);
-         TGesferaFija.addChild(figuraVisual);
-         objRoot.addChild(TGesferaFija);
-         float masa = 0f;                                                       //con masa =0 el objeto es estático
-         SphereShape figuraFisica = new SphereShape(radio);
-         CollisionObject ramaFisica = new CollisionObject();
-         ramaFisica.setCollisionShape(figuraFisica);
-         Transform groundTransform = new Transform();
-         groundTransform.setIdentity();
-         groundTransform.origin.set(new Vector3f(0, posY, 0));
-         Vector3f inerciaLocal = new Vector3f(0, 0, 0);
-         DefaultMotionState EstadoDeMovimiento = new DefaultMotionState(groundTransform);
-         RigidBodyConstructionInfo InformacionCuerpoR = new RigidBodyConstructionInfo(masa, EstadoDeMovimiento, figuraFisica, inerciaLocal);
-         RigidBody cuerpoRigido = new RigidBody(InformacionCuerpoR);
-         cuerpoRigido.setActivationState(RigidBody.DISABLE_DEACTIVATION);
-         mundoFisico.addRigidBody(cuerpoRigido); // add the body to the dynamics world
-         */
-        //Para que esa figura se mueva (ej. que caiga) hay que/invocar conitnuamente mundoFisico.stepSimulation(dt) y actualizar su objeto java3d a partir de su rigidBody.
-        //Por esto, para crear una figura dinamica se recomienda usar una Figura, simulada con el codigo del run(), mostrar() y actualizar()
-
-
-
 
         return objRoot;
     }
@@ -206,9 +143,7 @@ public class Juego extends JFrame implements Runnable {
         float posY = -1.5f, posZ = 0f;
         float elasticidad = 0.5f;
         float dumpingLineal = 0.5f;
-        /*personaje = new EsferaMDL("objetosMDL/Iron_Golem.mdl",radio, conjunto, listaObjetosFisicos, this, true);
-         personaje.crearPropiedades(masa, elasticidad, 0.5f, posX, posY, posZ, mundoFisico);
-         personaje.cuerpoRigido.setDamping(0.7f, 0.9f);*/
+
         personaje = new Personaje(0.5f, conjunto, listaObjetosFisicos, this);
         personaje.crearPropiedades(masa, elasticidad, dumpingLineal, posX, posY, posZ, mundoFisico);
         personaje.cuerpoRigido.setDamping(0.7f, 0.9f);
@@ -223,14 +158,7 @@ public class Juego extends JFrame implements Runnable {
         figuraBase2.crearPropiedades(8f, elasticidad, dumpingLineal, 12, 1, -0.5f, mundoFisico);
         figuraBase2.cuerpoRigido.setDamping(0.7f, 0.9f);
 
-        //Creando un Agente (es decir, un personaje autónomo) con el objetivo de perseguir al personaje controlado por teclado
-        /*perseguidor = new Esfera(radio, "texturas//bosques2.jpg", conjunto, listaObjetosFisicos, this);
-         if (!actualizandoFisicas) {
-         perseguidor.crearPropiedades(masa, elasticidad, dumpingLineal, 20, 4, -15, mundoFisico);
-         }
-         //perseguidor.asignarObjetivo(personaje, 15f);   //Este objetivo de perseguir DEBE actualizado para que persiga la nueva posicion del personaje
-         */
-        //Creacion de un Terreno Simple (no es una figura, no es movil, tiene masa 0)
+        
         float friccion = 0.5f;
         utilidades.TerrenoSimple terreno = new utilidades.TerrenoSimple(40, 40, -5, -3f, -12, "unaTextura_Desabilitada", conjunto, mundoFisico, friccion);
     }
@@ -245,10 +173,7 @@ public class Juego extends JFrame implements Runnable {
                 && haEntradoEstrella) {
 
             mostrarFinal();
-
-            //escena.addChild(textShape);
-            //letras.addChild(textShape);
-            //escena.addChild(letras);
+            
         }
 
         if (estadoJuego != -1) {
@@ -469,8 +394,8 @@ public class Juego extends JFrame implements Runnable {
 
     public static void main(String[] args) {
         Juego x = new Juego();
-        x.setTitle("Juego");
-        x.setSize(1000, 800);
+        x.setTitle("Pseudo-Mario");
+        x.setSize(800, 640);
         x.setVisible(true);
         x.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         x.colocarCamara(x.universo, new Point3d(2.5f, 4f, 4f), new Point3d(3, 0, 0));

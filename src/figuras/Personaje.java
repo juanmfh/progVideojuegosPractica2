@@ -59,10 +59,10 @@ public class Personaje extends Figura {
         esMDL = true; // para que no gire como una esfera
         esPersonaje = true;
 
-        // Creacion de la apariencia
+      
         Appearance apariencia = new Appearance();
 
-        //Creacion de formas visuales y fisicas
+        
         TransformGroup figuraVisual = crearPersonaje();
         SphereShape figuraFisica = new SphereShape(radio);
         ramaFisica = new CollisionObject();
@@ -92,7 +92,7 @@ public class Personaje extends Figura {
     public BranchGroup crearBranchGroupPersonaje() {
         BranchGroup objRoot = new BranchGroup();
 
-        // Apariencia
+        
          Appearance aparienciaCara = new Appearance();
         aparienciaCara.setTexture(new TextureLoader(System.getProperty("user.dir") + "//cara.jpg", new Container()).getTexture());
         TextureAttributes texAttr = new TextureAttributes();
@@ -391,9 +391,6 @@ public class Personaje extends Figura {
 
     @Override
     public void actualizar() {
-        //Opcional: ACTUALIZACION DEL ESTADO DE LA FIGURA Y DEL ESTADO DEL ENTORNO
-        //Para actualizar el estado de la figura:  detectar cercanias,exploraciones picking, localizacion (cuadrantes, mundos)
-        //Para actualizar el estado del entorno:  lo puede hacer la misma figura, una figura coordinara, o el mismo juego
         // Movimiento de brazo y piernas
         if (adelante || atras) {
             if (angulo > Math.PI / 4 && dir == 1) {
@@ -408,7 +405,7 @@ public class Personaje extends Figura {
         }
 
         if (saltando && !enSalto) {
-            fuerzaSalto = new Vector3f(0f, 1.5f, 0f);
+            fuerzaSalto = new Vector3f(0f, 3.5f, 0f);
             enSalto = true;
         } else {
             fuerzaSalto = new Vector3f(0f, 0f, 0f);
@@ -417,11 +414,7 @@ public class Personaje extends Figura {
             }
 
         }
-        //Opcional: ACTUALIZACION DE PLANIFICACION A LARGO PLAZAO
-        //Dependiendo del objetivo a conseguir ejecutar un plan a largo plazo
-
-        //REGLAS DE MOVIMIENTO A CORTO PLAZO DE LA FIGURA DEPENDIENDO DE SU ESTADO, DEL ENTORNO Y DEL ESTADO DEL JUEGO
-        //ejemplo: C—digo de actualizar() del programa  Navegador_Tema_3
+        
         if (localizacionObjetivo != null) {
             Vector3f direccion = new Vector3f(localizacionObjetivo.x - posiciones[0], 0f, localizacionObjetivo.z - posiciones[2]); //localizacionObjetivo.z - posiciones[2]
             direccion.normalize();                                                                           //El vector se normaliza con 1 para que indique solo la direccion.

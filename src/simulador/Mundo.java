@@ -61,10 +61,6 @@ public class Mundo {
         Appearance aparienciaBlanca = new Appearance();
         aparienciaBlanca.setColoringAttributes(colorBlanco);
 
-        /*Texture tex = new TextureLoader(System.getProperty("user.dir") + "\\suelo.jpg", new Container()).getTexture();
-         Appearance apariencia = new Appearance();
-         apariencia.setTexture(tex);*/
-
         // Escalon 1
         float x, y, z, posx, posy, posz;
         x = 1f;

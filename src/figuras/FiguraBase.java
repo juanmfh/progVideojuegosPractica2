@@ -50,12 +50,6 @@ public class FiguraBase extends Figura{
     }
 
     private TransformGroup crearFiguraBase() {
-        /*BranchGroup figura = crearBranchGroupFigura();
-        
-        Transform3D rotacionCombinada = new Transform3D();
-        TransformGroup rotadorFigura = new TransformGroup(rotacionCombinada);
-        rotadorFigura.addChild(figura);*
-        */
         
         Appearance apariencia = new Appearance();
         apariencia.setTexture(new TextureLoader(System.getProperty("user.dir") + "//Bloque_Ladrillo.png", new Container()).getTexture());
@@ -99,15 +93,6 @@ public class FiguraBase extends Figura{
     
     @Override
     public void actualizar(){
-        /*if(this.posiciones[1]<0.52f && dir==-1){
-            dir = 1;
-            fuerzaY = new Vector3f(0f,0.77f,0f);
-        }else if(this.posiciones[1]>1.2f && dir==1){
-            dir = -1;
-            fuerzaY = new Vector3f(0f,-0.47f,0f);
-        } else{
-            fuerzaY = new Vector3f(0f,0.77f,0f);
-        }*/
         if(this.posiciones[1]>0.5){
             fuerzaY = new Vector3f(0f,0f,0f);
         }else{
@@ -135,11 +120,5 @@ public class FiguraBase extends Figura{
         }
         Transform3D inip = new Transform3D(matrizRotacionPersonaje, new Vector3f(posiciones[0], posiciones[1], posiciones[2]), 1f);
         desplazamientoFigura.setTransform(inip);
-        /*Transform3D principal = new Transform3D();
-        Transform3D mov = new Transform3D();
-        mov.set(new Vector3f(0f,dir*desp,0f));
-        movimientoPenduloTG.getTransform(principal);
-        principal.mul(mov);
-        movimientoPenduloTG.setTransform(principal);*/
     }
 }
