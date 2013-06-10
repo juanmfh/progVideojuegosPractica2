@@ -405,7 +405,7 @@ public class Personaje extends Figura {
         }
 
         if (saltando && !enSalto) {
-            fuerzaSalto = new Vector3f(0f, 3.5f, 0f);
+            fuerzaSalto = new Vector3f(0f, 2.5f, 0f);
             enSalto = true;
         } else {
             fuerzaSalto = new Vector3f(0f, 0f, 0f);

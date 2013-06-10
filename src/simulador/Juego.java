@@ -35,7 +35,11 @@ public class Juego extends JFrame implements Runnable {
     BranchGroup escena;
     BranchGroup letras;
     JLabel monedas;
-    boolean haEntradoEstrella = false;
+    boolean activadoEstrella = false;
+    boolean finalJuego = false;
+    JLabel etiqueta;
+    JLabel iconoMonedas;
+    boolean flag = false;
     JPanel Controles;
     int contadorMensaje = 0;
 
@@ -63,9 +67,9 @@ public class Juego extends JFrame implements Runnable {
 
         GranPanel.add(Controles, BorderLayout.NORTH);
 
-        JLabel etiqueta = new JLabel("Monedas: ");
+        etiqueta = new JLabel("Monedas: ");
         monedas = new JLabel("0");
-        JLabel iconoMonedas = new JLabel();
+        iconoMonedas = new JLabel();
         iconoMonedas.setIcon(new javax.swing.ImageIcon(rutaCarpetaProyecto + "NewSuperMarioBros-Coin.png"));
         etiqueta.setFont(new Font("Arial", Font.BOLD, 24));
         monedas.setFont(new Font("Arial", Font.BOLD, 24));
@@ -123,7 +127,9 @@ public class Juego extends JFrame implements Runnable {
 
 
         //Letras
+     
         Font3D font3d = new Font3D(new Font("Helvetica", Font.PLAIN, 1), 1, new FontExtrusion());
+       
         Text3D textGeom = new Text3D(font3d, "META", new Point3f(11f, 2.5f, -4.5f));
         textShape = new Shape3D(textGeom);
         textShape.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
@@ -167,19 +173,19 @@ public class Juego extends JFrame implements Runnable {
 
 
         //ACTUALIZAR EL ESTADO DEL JUEGO
-        if (personaje.posiciones[0] - 12.34f < 0.25f && personaje.posiciones[0] - 12.34f > -0.25f
-                && personaje.posiciones[1] - 2f < 0.25f && personaje.posiciones[1] - 2f > -0.25f
-                && personaje.posiciones[2] + 3.57f < 0.25f && personaje.posiciones[2] + 3.57f > -0.25f
-                && haEntradoEstrella) {
-
+        if (personaje.posiciones[0] - 12.34f < 0.35f && personaje.posiciones[0] - 12.34f > -0.35f
+                && personaje.posiciones[1] - 2f < 0.35f && personaje.posiciones[1] - 2f > -0.35f
+                && personaje.posiciones[2] + 3.57f < 0.35f && personaje.posiciones[2] + 3.57f > -0.35f
+                && activadoEstrella) {
+            finalJuego = true;
             mostrarFinal();
             
         }
 
-        if (estadoJuego != -1) {
-            if (this.getMonedas() == 1 && !haEntradoEstrella) {
+        if (!finalJuego) {
+            if (this.getMonedas() == 3 && !activadoEstrella) {
                 Mundo.raizEstrella.addChild(Mundo.estrella);
-                haEntradoEstrella = true;
+                activadoEstrella = true;
             }
 
             for (Moneda m : Mundo.listaMonedas) {
@@ -367,19 +373,25 @@ public class Juego extends JFrame implements Runnable {
     }
 
     public void mostrarFinal() {
-        monedas.setText("---¡¡¡YOU WIN!!!---");
         
-        if (contadorMensaje == 30) {
-            Controles.setBackground(Color.red);
-            System.out.println("entrarojo");
+        if(!flag){
+            monedas.setText("---¡¡¡YOU WIN!!!---");
+            etiqueta.setText("");
+            iconoMonedas.setIcon(null);
+            flag = true;
         }
-        if (contadorMensaje == 60) {
+        
+        
+        if (contadorMensaje == 20) {
+            Controles.setBackground(Color.red);
+
+        }
+        if (contadorMensaje == 40) {
             Controles.setBackground(Color.blue);
             contadorMensaje = 0;
-            System.out.println("entraazul");
+
         }
-        System.out.println(contadorMensaje);
-        estadoJuego = -1;
+
         contadorMensaje++;
 
     }
